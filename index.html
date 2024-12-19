@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Project</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="nav">
+            
+            <nav id="navbar">
+                <ul>
+                    <li><svg fill="#F4D03F" id="bar-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M160 80c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 352c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-352zM0 272c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 160c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48L0 272zM368 96l32 0c26.5 0 48 21.5 48 48l0 288c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48z"/></svg></li>
+                    <li><a class="nav-link">Create Workout</a></li>
+                    <li><a class="nav-link">Create Workout</a></li>
+                    <li><a class="nav-link">Create Workout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="add-workout-app" id="fence">
+        <button id="open-create-form-btn" class="btn large-btn">
+            Add New Workout
+        </button>
+        <div id="create-form-div" class="hidden">
+            <form class="create-form" id="create-form">
+                <div class="create-form-header">
+                    <button type="button" id="close-create-form-btn">
+                        <svg class="close-icon" class="close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px"><path fill="#F4D03F" d="M21.5 4.5H26.501V43.5H21.5z" transform="rotate(45.001 24 24)" /><path fill="#F4D03F" d="M21.5 4.5H26.5V43.501H21.5z" transform="rotate(135.008 24 24)" /></svg>
+                    </button>
+                </div>
+                <div class="create-form-inputs">
+                    <label class="create-form-label">
+                        Name:
+                    </label>
+                    <input type="text" class="create-form-input" placeholder=" New Workout" id="name-input">
+                    <label class="create-form-label">
+                        Description:
+                    </label>
+                    <input type="text" class="create-form-input" placeholder=" 4*10' Threshold" id="description-input">
+                    <label class="create-form-label">
+                        FTP:
+                    </label>
+                    <input type="text" class="create-form-input" placeholder=" 350" id="ftp-input">
+                </div>
+                <div class="create-form-footer">
+                    <button type="button" class="btn large-btn" id="add-workout-head">
+                        Add Workout
+                    </button>
+                </div>
+            </form>
+        </div>
+        <span id="edit-workout-div" class="hidden">
+            
+        </span>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

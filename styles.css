@@ -1,0 +1,582 @@
+.noSelect {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.noSelect:focus {
+  outline: none !important;
+}
+
+*, html {
+    margin: 0 ;
+    font-family: sans-serif ;
+}
+svg {
+    height: 70px ;
+    position: absolute ;
+    bottom: -20px ;
+    right: 90% ;
+}
+div.nav {
+    width: 100% ;
+    margin-bottom: 0 ;
+    height: 100px ;
+    background-color:#17202A   ;
+    position: fixed;
+    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, .2);
+}
+  nav#navbar {
+    position: relative ;
+    right: 0 ;
+    height: 100% ;
+}
+  nav#navbar > ul {
+    width: 100% ;
+    display: flex ;
+    justify-content: space-evenly ;
+    flex-wrap: wrap ;
+    position: relative ;
+    left: 0% ;
+    top: 35% ;
+}
+  li {
+    list-style-type: none ;
+    padding: 0 ;
+    margin: 0 ;
+}
+nav#navbar > ul > li > a.nav-link {
+    text-decoration: none ;
+    color: #FDFEFE ;
+    padding: 37px ;
+    margin: 0 ;
+    font-size: 1.5rem ;
+  }
+  nav#navbar > ul > li > a.nav-link:hover {
+    background-color: #FDFEFE ;
+    color: #17202A ;
+  }
+  body {
+    background-color: #17202A;
+    text-align: center ;
+  }
+  div.add-workout-app {
+    text-align: center ;
+    position: relative ;
+    top: 150px ;
+    margin: auto ;
+    width: 500px ;
+    height: 500px ;
+    display: flex ;
+    flex-direction: column ;
+    z-index: 1;
+  }
+  div#create-form-div {
+    position: relative;
+    z-index: 2 ;
+    background-color: #1C2833;
+    width: 500px ;
+    height: 600px ;
+    border-radius: 20px ;
+    box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, .2);
+  }
+  button#open-create-form-btn {
+    border: 1px solid ;
+    height: 50px; ;
+    position: relative;
+    top: 50px ;
+    width: 80% ;
+    margin: 0 auto ;
+    font-size: 1.5rem ;
+    border-radius: 10px ;
+    color: #F4D03F;
+    background-color: #17202A;
+    border: 1px solid #F4D03F ;
+    transition: all 0.2s ease-in-out;
+  }
+  button#open-create-form-btn:hover {
+    color: #17202A;
+    background-color: #F4D03F;
+  cursor: pointer ;
+  }
+
+  .hidden {
+    display: none ;
+  }
+  .create-form {
+    display: flex;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    padding: 15px;
+    width: 400px;
+    height: 350px;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    
+  }
+  
+  .create-form-header {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .create-form-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .create-form-footer {
+    display: flex;
+    justify-content: center;
+  }
+  .create-form-label  {
+  display: block;
+  position: relative;
+  margin-top: 30px ;;
+}
+.create-form-label {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #FBFCFC ;
+}
+.create-form-input {
+  border-radius: 8px;
+  height: 30px;
+  border: none ;
+}
+button#close-create-form-btn {
+    background: none ;
+    border: none ;
+    cursor: pointer;
+    position: relative;
+    left: 30px ;
+}
+.close-icon {
+    width: 20px ;
+    height: 20px ;
+}
+button#add-workout-head {
+    border: 1px solid ;
+    height: 50px; ;
+    position: relative;
+    top: 50px ;
+    width: 80% ;
+    margin: 0 auto ;
+    font-size: 1.5rem ;
+    border-radius: 10px ;
+    background-color: #1C2833;
+    color: #F4D03F;
+    border: 1px solid #F4D03F ;
+    transition: all 0.2s ease-in-out;
+}
+button#add-workout-head:hover {
+    color: #1C2833;
+    background-color: #F4D03F;
+    box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
+  cursor: pointer ;
+}
+input {
+    height: 25px ;
+    font-size: 20px;
+}
+span#edit-workout-div {
+    position: relative;
+    top: 80px ;
+    height: 600px ;
+    background-color: #1C2833 ;
+    text-align: center;
+    border-radius: 20px ;
+    box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, .2);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+}
+#edit-workout-div.blurred *:not(.focused) {
+  filter: blur(5px);
+  pointer-events: none;
+}
+.focused {
+  z-index: 2;
+  filter: none ;
+}
+.editHead {
+    margin: 30px ;
+    background-color: #1C2833;
+    height: 100px;
+    margin: auto ;
+    width: 100%;
+    color: #FDFEFE ;
+    text-align: left;
+    border-radius: 20px 20px 0 0 ;
+    
+}
+.editHead > h1  {
+    padding-top: 20px ;
+    padding-left: 20px ;
+}
+.editHead > p {
+    padding-left: 20px;
+    padding-top: 5px ;
+}
+.addLapOrSaveBtns {
+    position: relative;
+    width: 100% ;
+    bottom: 0;
+    display: flex ;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: #1C2833;
+}
+.addLapOrSaveBtn {
+    background-color: #1C2833;;
+    height: 40px ;
+    width: 250px ;
+    border-bottom: 3px solid #F4D03F;
+    font-size: 30px ;
+    color: #F4D03F;
+    outline: none;
+    display: inline-block ;
+    line-height: 40px;
+    transition: all 0.2s ease-in-out;
+
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, .2);
+}
+.blockBtn {
+  box-shadow: none;
+  width: 500px ;
+}
+.addLapOrSaveBtn:hover {
+    background-color: #F4D03F;
+    color: #1C2833;
+    border-bottom: 3px solid #F4D03F;
+    cursor: pointer;
+}
+.addLapOrSaveBtn:active {
+    background-color: #1C2833;
+    color: #F4D03F;
+    border-bottom: 3px solid #AEB6BF;
+    transform: scale(1);
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+.lap {
+  display: flex;
+  flex-direction: column ;
+  margin: 25px;
+  padding: 15px ;
+  border: 2px solid #1C2833;
+  border-radius: 10px;
+  background-color: #AEB6BF;
+  height: 180px;;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
+  position: absolute;
+  z-index: 10;
+}
+input.lap-text {
+  width: 250px;
+}
+.lap > span {
+  display: flex ;
+  justify-content: flex-start ;
+  margin-bottom: 10px;
+}
+.lap > span > label {
+  font-size: 20px ;
+  position: relative;
+  top: 5px ;
+}
+.lap > span > input {
+  height: 30px ;
+  margin: 0 20px;
+  border-radius: 5px ;
+  border: none ;
+  padding: 5px ;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, .2);
+}
+.lap > span#time-input > input {
+  width: 80px ;
+}
+.lap > span#lap-input-power > input {
+  width: 80px ;
+}
+.lap > span > p {
+  font-size: 25px ;
+  position: relative;
+  top: 5px ;
+  right: 10px ;
+}
+.lap > span > button {
+  width: 150px ;
+  height: 30px ;
+  margin-left: 50px;
+  font-size: 20px ;
+  border: 2px solid #1C2833 ;
+  border-radius: 5px;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
+  background-color: #F4F6F6;
+  transition: all 0.2s ease-in-out;
+}
+.lap > span > button.addLap:hover {
+  cursor: pointer;
+  background-color: #138D75;
+  color: #F4F6F6;
+}
+.lap > span > button.discardLap:hover {
+  cursor: pointer;
+  background-color: #C0392B;
+  color: #F4F6F6;
+}
+#edit-workout-div > .lapDataNShi {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px 0 ;
+  position: relative;
+  z-index: 1;
+  color: #AEB6BF;
+}
+#edit-workout-div > .lapDataNShi > #lap-data-right {
+  padding: 5px ;
+  padding-left: 10px ;
+  text-align: left;
+}
+#edit-workout-div > .lapDataNShi > #lap-data-left {
+  border-right: 1px solid;
+  width: 15% ;
+}
+#edit-workout-div > .lapDataNShi > #lap-data-left > p {
+  margin-top: 25% ;
+  font-size: 20px ;
+}
+#edit-workout-div > .lapDataNShi > #lap-data-very-right {
+  width: 30% ;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+}
+#edit-workout-div > .lapDataNShi > #lap-data-very-right > #pencil-svg {
+  width: 20% ;
+  position: relative;
+  left: 80px ;
+  bottom: 5px ;
+  fill: #2C3E50 ;
+  transition: all 0.2s ease-in-out;
+}
+#edit-workout-div > .lapDataNShi > #lap-data-very-right > #bin-svg {
+  width: 20%;
+  position: relative;
+  left: 100px ;
+  bottom: 5px ;
+  fill: #2C3E50 ;
+  transition: all 0.2s ease-in-out;
+}
+#edit-workout-div > .lapDataNShi > #lap-data-very-right > #bin-svg:hover {
+  fill: #C0392B;
+} 
+#edit-workout-div > .lapDataNShi > #lap-data-very-right > #pencil-svg:hover {
+  fill: #138D75 ;
+}
+#edit-workout-div > .lapDataNShi > .this-lap-data > p {
+  display: none ;
+}
+#edit-workout-div > div#decider {
+  background-color: #1C2833;
+  height: 100% ;
+  border-radius: 20px;
+  overflow: hidden;
+}
+#edit-workout-div > div#decider > #header {
+  position: relative;
+  top: 0px ;
+  font-size: 25px ;
+  color: #FDFEFE;
+  background-color: #212F3D;
+  height: 100px ;
+  position: relative;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
+}
+#edit-workout-div > div#decider > #header > p {
+  position: relative;
+  top: 30px ;
+}
+#edit-workout-div > div#decider > .tool-options {
+  width: 95% ;
+  margin: auto;
+  height: 270px ;
+  position: relative;
+  top: 70px;
+  display: flex;
+  justify-content: space-evenly;
+}
+#edit-workout-div > div#decider > .tool-options > span {
+  width: 200px ;
+  border-radius: 20px;
+  background-color: #AEB6BF;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
+}
+#edit-workout-div > div#decider > .tool-options > span > p {
+  padding: 10px ;
+  padding-bottom: 12px ;
+  background-color: #212F3D;
+  border-radius: 20px 20px 0 0 ;
+  color: #EAEDED;
+  font-size: 20px;
+  position: relative;
+  box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, .2);
+}
+#edit-workout-div > div#decider > .tool-options > span > svg {
+  position: relative;
+  left: 0 ;
+  top: 50px ;
+  height: 100px ;
+  fill: #212F3D;
+
+}
+#edit-workout-div > div#decider > .tool-options > span:hover {
+  background-color: #212F3D;
+  cursor: pointer;
+  box-shadow: 0px 0px 3px 3px #F4D03F;
+  transition: all 0.2s ease-in-out;
+} 
+#edit-workout-div > div#decider > .tool-options > span:hover svg {
+  fill: #AEB6BF;
+  transition: all 0.2s ease-in-out;
+}
+#edit-workout-div > div#decider > .tool-options > span:hover > p {
+  color: #212F3D ;
+  background-color: #AEB6BF;
+  box-shadow: 0px 0px 3px 3px #F4D03F;
+  transition: all 0.2s ease-in-out;
+}
+#edit-workout-div > .blockWorkoutData {
+  width: 300px ;
+  text-align: left;
+  height: 50px ;
+  padding: 10px ;;
+}
+#edit-workout-div > .blockWorkoutData > p {
+  margin-bottom: 10px ;
+  color: #AEB6BF ;
+}
+#edit-workout-div > .blockLapDiv {
+  height: 80px ;
+  border-radius: 20px ;
+  position: fixed ;
+  left: 600px ;
+  background-color: #212f3d ;
+  box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
+  padding: -1px ;
+}
+#edit-workout-div > .blockLapDiv > #editBlockLap > svg {
+  position: relative;
+  left: 0px ;
+  height: 20px;
+  top: 40% ;
+  bottom: 60%;
+  fill:#F4D03F;
+}
+#edit-workout-div > .blockLapDiv > #editBlockLap > svg:hover {
+  cursor: pointer ;
+}
+#edit-workout-div > .blockLapDiv:hover {
+  cursor: grabbing;
+}
+#edit-workout-div > div.lapBlocksBottom {
+  border: 1px solid #17202A;
+  position: relative;
+  top: 215px ;
+  height: 70px ;
+  border-radius: 0 0 20px 20px ;
+  background-color: #17202A;
+} 
+.blockLap {
+  margin-top: 200px ;
+  height: 130px ;
+}
+#addBlockLap:hover {
+  cursor: pointer;
+  background-color: #138D75;
+  color: #F4F6F6;
+}
+#discardBlockLap:hover {
+  cursor: pointer;
+  background-color: #C0392B;
+  color: #F4F6F6;
+}
+.verticalDrag {
+  position: absolute;
+  background-color: #F4D03F;
+  height: 5px;
+  top: 0 ;
+  width: 40% ;
+  margin: 0 30% ;
+  border-radius: 3px;
+  cursor: row-resize ;
+}
+.verticalDrag:hover {
+  cursor: row-resize ;
+}
+.horizontalDrag {
+  position: absolute;
+  background-color: #F4D03F;
+  height: 40%;
+  width: 5px ;
+  margin: auto 0 ;
+  border-radius: 3px;
+  bottom: 25%;
+  left: 99% ;
+  z-index: 10 ;
+}
+.horizontalDrag:hover {
+  cursor: col-resize ;
+}
+.topInfo {
+  position: relative;
+  width: 40% ;
+  margin: 0 auto ;
+  bottom: 50px ;
+}
+.topInfo > p {
+  color: #F4D03F ;
+}
+.bottomInfo {
+  position: relative;
+  width: 40% ;
+  margin: 0 auto ;
+  top: calc(100% - 10px) ;
+}
+.bottomInfo > p {
+  color: #F4D03F ;
+}
+.block-svgs {
+  position: relative;
+  margin: 0 auto;
+  width: 40%;
+  height: 20px;
+  bottom: 30px;
+  top: calc(40% - 30px);
+  display: flex ;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.block-svgs > svg {
+  position: relative;
+  left: 0px ;
+  bottom: 10px;
+  height: 20px;
+  fill: #2c3e50 ;
+}
+.block-svgs > svg:hover {
+  cursor: pointer;
+  fill: #F4D03F ;
+}
