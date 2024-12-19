@@ -96,8 +96,10 @@ function changeLapHeight(ind) {
     
 }
 
-function changeLapArrangements() { 
-    const baseMargin = 220 ;
+function changeLapArrangements() {
+    const rect = editWorkoutDiv.getBoundingClientRect();
+    const leftX = rect.left ;
+    const baseMargin = leftX ;
     let leftMargin = baseMargin ;
     for (let i = 0; i < blockLapsSorted.length; i++) {            
         let lap = blockLapsSorted[i];
