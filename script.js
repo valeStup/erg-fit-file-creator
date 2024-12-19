@@ -21,6 +21,7 @@ AddWorkoutHeadBtn.addEventListener("click", addWorkoutHead) ;
 
 function decideOnBlockBuilder() {
     const decider = document.createElement("div");
+    decider.classList.add("noSelect");
     decider.id = 'decider';
     decider.innerHTML = `
     <div id="header">
@@ -120,19 +121,19 @@ function AddNewWorkoutBlock() {
     if (ftpInput.value.length === 0) {ftpInput.value = 250.0}
     const fileName = getFileName(nameInput.value);
     editWorkoutDiv.innerHTML += `
-    <div class="editHead" >
+    <div class="editHead noSelect" >
     <h1>${nameInput.value}</h1>
     <p>FTP: ${ftpInput.value}</p>
     </div>
-    <div class="addLapOrSaveBtns">
+    <div class="addLapOrSaveBtns selectable">
     <p id="addBlockLapBtn" class="addLapOrSaveBtn blockBtn">add lap</p>
     <p id="saveBlockLapBtn" class="addLapOrSaveBtn blockBtn">save</p>
     </div>
-    <div class="blockWorkoutData" id="blockWorkoutData">
+    <div class="blockWorkoutData noSelect" id="blockWorkoutData">
     <p id="blockWorkoutDurationData">Duration: ${decMinsTotal}</p>
     <p>Average power: </p>
     </div>
-    <div class="lapBlocksBottom"></div>
+    <div class="lapBlocksBottom noSelect"></div>
     `;
 } 
 
@@ -150,11 +151,11 @@ function addNewWorkout() {
     if (ftpInput.value.length === 0) {ftpInput.value = 250.0}
     const fileName = getFileName(nameInput.value);
     editWorkoutDiv.innerHTML += `
-    <div class="editHead" >
+    <div class="editHead noSelect" >
     <h1>${nameInput.value}</h1>
     <p>FTP: ${ftpInput.value}</p>
     </div>
-    <div class="addLapOrSaveBtns">
+    <div class="addLapOrSaveBtns noSelect">
     <p id="add-lap-btn" class="addLapOrSaveBtn">add lap</p>
     <p id="save-btn" class="addLapOrSaveBtn">save</p>
     </div>
@@ -234,7 +235,7 @@ function addNewLap() {
     const lapEdit = document.createElement("div");
     lapEdit.id = `lap-${lap}`;
     lapEdit.classList.add("lap", "focused");
-    editWorkoutDiv.classList.add("blurred");
+    editWorkoutDiv.classList.add("blurred", "noSelect");
     lapEdit.innerHTML += `
     <span id="desc-input">
     <label class="lap-input-label">Description: </label>
@@ -298,7 +299,7 @@ function handleAdderClick(target) {
     const lapProps = document.createElement("div");
     lapEdit.id = `lap-${lap}`;
     lapEdit.classList.add("lap", "focused");
-    lapProps.classList.add("lapDataNShi");
+    lapProps.classList.add("lapDataNShi", "noSelect");
     lapProps.id = `lapData-${lap}`;
     lapProps.innerHTML += `
         <span id="lap-data-left">
@@ -436,12 +437,14 @@ function moveBlocksAround(e) {
             changeLapWidths();
             changeLapArrangements(1);
 
+
             div.style.cursor = 'default';
             div.style.boxShadow = "none" ;
             div.style.backgroundColor = "#1C2833";
             div.style.border = "1px solid #F4D03F" ;
             div.style.borderRadius = "10px" ;
             div.innerHTML += `
+            <div class="selectionDiv selectable"></div>
             <div class="topInfo"><p id="topInfo-${targetArrNum}">${blockLaps[targetArrNum].power} W</p></div>
             <div class="bottomInfo"><p id="bottomInfo-${targetArrNum}" >${minFromDecMin(blockLaps[targetArrNum].duration)}:${secFromDecMin(blockLaps[targetArrNum].duration)}</p></div>
             <div class="verticalDrag" id="whirrDragger"></div>
@@ -556,7 +559,7 @@ function addNewBlockLap() {
     BlockLapDiv.id = `draggable`;
     BlockLapDiv.ariaLabel = lap;
     BlockLapDiv.style.width = '500px' ;
-    BlockLapDiv.classList.add(`blockLapDiv-${lap}`, "blockLapDiv");
+    BlockLapDiv.classList.add(`blockLapDiv-${lap}`, "blockLapDiv", "noSelect");
     blockLaps.push({name: lap, duration: 20.0, power: 200, width: 500, dockStatus: "free", height: 80, margintop: 610, marginleft: 220, position: pos});
     BlockLapDiv.innerHTML += `
     <span id="editBlockLap">
@@ -629,7 +632,7 @@ function editBlockLap(target) {
     editWorkoutDiv.classList.add("blurred");
     const blockEditor = document.createElement("div");
     blockEditor.id = `${ind}`;
-    blockEditor.classList.add("lap", "focused", "blockLap");
+    blockEditor.classList.add("lap", "focused", "blockLap", "noSelect");
     blockEditor.innerHTML = `
     <span id="time-input">
     <label class="lap-input-label">mins:</label>
@@ -716,7 +719,7 @@ function editLap(target) {
     editWorkoutDiv.classList.add("blurred");
     const lapEdit = document.createElement("div");
     lapEdit.id = `lap-${lap}`;
-    lapEdit.classList.add("lap", "focused");
+    lapEdit.classList.add("lap", "focused", "noSelect");
     lapEdit.innerHTML += `
     <span id="desc-input">
     <label class="lap-input-label">Description: </label>
@@ -752,3 +755,86 @@ function deleteLap(target) {
     lap-- ;
 }
 
+//selection rectangle stuff
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("loaded");
+    let isSelecting = false;
+    let startX = 0, startY = 0;
+    const selectionRectangle = document.createElement('div');
+    selectionRectangle.className = 'selection-rectangle';
+    document.body.appendChild(selectionRectangle);
+  
+    let selectableElements = document.querySelectorAll(".selectable");
+    
+  
+    // Begin selection
+    document.addEventListener('mousedown', (event) => {
+        console.log("mousedown");
+      // Clear selection if clicking outside any selectable area
+      if (!event.target.closest('.selectable')) {
+        selectableElements.forEach((element) => element.classList.remove('selected'));
+      }
+  
+      if (event.target.closest('.noSelect')) return; // Prevent rectangle creation in noSelect areas
+  
+      isSelecting = true;
+      startX = event.pageX;
+      startY = event.pageY;
+  
+      // Initialize rectangle
+      selectionRectangle.style.left = `${startX}px`;
+      selectionRectangle.style.top = `${startY}px`;
+      selectionRectangle.style.width = '0px';
+      selectionRectangle.style.height = '0px';
+      selectionRectangle.style.display = 'block';
+    });
+  
+    // Update rectangle size and check for overlaps
+    document.addEventListener('mousemove', (event) => {
+      if (!isSelecting) return;
+      console.log("mousemove");
+  
+      const currentX = event.pageX;
+      const currentY = event.pageY;
+  
+      // Calculate rectangle's position and dimensions
+      const rectLeft = Math.min(startX, currentX);
+      const rectTop = Math.min(startY, currentY);
+      const rectWidth = Math.abs(startX - currentX);
+      const rectHeight = Math.abs(startY - currentY);
+  
+      selectionRectangle.style.left = `${rectLeft}px`;
+      selectionRectangle.style.top = `${rectTop}px`;
+      selectionRectangle.style.width = `${rectWidth}px`;
+      selectionRectangle.style.height = `${rectHeight}px`;
+        
+      selectableElements = document.querySelectorAll(".selectable");
+      // Check overlaps with selectable elements
+      selectableElements.forEach((element) => {
+        const elementRect = element.getBoundingClientRect();
+        const overlap = !(
+          rectLeft > elementRect.right ||
+          rectLeft + rectWidth < elementRect.left ||
+          rectTop > elementRect.bottom ||
+          rectTop + rectHeight < elementRect.top
+        );
+        if (overlap) {
+            console.log("found one");
+            element.classList.add('selected');
+        }
+      });
+    });
+  
+    // End selection process
+    document.addEventListener('mouseup', () => {
+      if (isSelecting) {
+        isSelecting = false ;
+        selectionRectangle.style.display = 'none';
+      } 
+    });
+  
+    
+  });
+  
+  

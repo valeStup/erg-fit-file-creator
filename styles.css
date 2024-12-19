@@ -10,7 +10,18 @@
 .noSelect:focus {
   outline: none !important;
 }
-
+.selectable {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.selection-rectangle {
+  position: absolute;
+  background: rgba(173, 216, 230, 0.3);
+  border: 1px dashed rgba(0, 0, 255, 0.5); 
+  pointer-events: none;
+  z-index: 1000;
+}
 *, html {
     margin: 0 ;
     font-family: sans-serif ;
@@ -62,6 +73,7 @@ nav#navbar > ul > li > a.nav-link {
   body {
     background-color: #17202A;
     text-align: center ;
+    overflow: hidden;
   }
   div.add-workout-app {
     text-align: center ;
@@ -579,4 +591,19 @@ input.lap-text {
 .block-svgs > svg:hover {
   cursor: pointer;
   fill: #F4D03F ;
+  transition: all 0.2s ease-in-out;
+}
+.selected {
+  background-color: rgba(255, 215, 0, 0.1); /* Light gold highlight */
+  transition: all 0.1s ease-in-out;
+}
+.selectionDiv {
+  position: absolute ;
+  top: 0;
+  left: 0 ;
+  width: 100% ;
+  height: 100% ;
+  border-radius: 10px ;
+  pointer-events: none;
+  z-index: 1;
 }
