@@ -844,6 +844,8 @@ document.addEventListener('DOMContentLoaded', () => {
             element.classList.remove("focused");
         });
         // focus on important
+
+        console.log(selectedElements);
         for (let i = 0; i < selectedElements.length; i++) {
             const lapProps = document.querySelector(`.blockLapDiv-${selectedElements[i].name}`);
             lapProps.classList.add("focused");
@@ -914,7 +916,73 @@ function deleteBlockLaps() {
     closeGroupLapEditor();
 }
 
+/*function dupeBlockLaps() {
+    let selectedLaps = [];
+    document.querySelectorAll('.selected').forEach((element) => {
+        selectedLaps.push({name: element.ariaLabel, blInd: Number(element.ariaLabel) - 1, position: 0, power: 0});
+    })
+
+    let selectedLapsSorted = [...selectedLaps].sort((a, b) => a.position - b.position);
+
+    selectedLapsSorted.forEach((lap) => {
+        let ind = lap.blInd ;
+        lap.position = blockLaps[ind].position ;
+        lap.power = blockLaps[ind].power ;
+
+        let newInd = ind + selectedLapsSorted.length;
+        let newPos = lap.position + selectedLapsSorted.length ;
+
+        for (let i = lap.position + 1; i < blockLaps.length; i++) {
+            let index = blockLaps.findIndex((p) => p.position === i);
+
+            let lapProps = document.querySelector(`.blockLapDiv-${index + 1}`)
+            lapProps.classList.remove(`blockLapDiv-${index + 1}`);
+            lapProps.classList.add(`blockLapDiv-${index + 2}`);
+
+            let lapPropsSelDiv = document.querySelector(`[aria-label = "${blockLaps[ind].name}"]`);
+            lapPropsSelDiv.ariaLabel++ ;
+
+            blockLaps[index].position++ ;
+            blockLaps[index].name++ ;
+        }
+
+        let div = document.createElement("div");
+        div.classList.add(`blockLapDiv-${newInd + 1}`, "blockLapDiv", "noSelect");
+
+        div.style.cursor = 'default';
+        div.style.boxShadow = "none" ;
+        div.style.backgroundColor = "#1C2833";
+        div.style.border = "1px solid #F4D03F" ;
+        div.style.borderRadius = "10px" ;
+
+        blockLaps.push({name: newInd + 1, duration: lap.duration, power: lap.power, width: 500, dockStatus: "docked", height: 80, margintop: 610, marginleft: 0, position: newPos , copyHistory: "copied"});
+        div.innerHTML += `
+        <div class="selectionDiv selectable" aria-label="${newInd + 1}"></div>
+        <div class="topInfo"><p id="topInfo-${newInd}">${blockLaps[newInd].power} W</p></div>
+        <div class="bottomInfo"><p id="bottomInfo-${newInd}" >${minFromDecMin(blockLaps[newInd].duration)}:${secFromDecMin(blockLaps[newInd].duration)}</p></div>
+        <div class="verticalDrag" id="whirrDragger"></div>
+        <span class="block-svgs">
+        <svg id="back-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="back-svg-block" d="M459.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4L288 214.3l0 41.7 0 41.7L459.5 440.6zM256 352l0-96 0-128 0-32c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160C4.2 237.5 0 246.5 0 256s4.2 18.5 11.5 24.6l192 160c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-64z"/></svg>
+        <svg id="pencil-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="pencil-svg-block" d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
+        <svg id="bin-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="bin-svg-block" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+        <svg id="ahead-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="ahead-svg-block" d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4L224 214.3l0 41.7 0 41.7L52.5 440.6zM256 352l0-96 0-128 0-32c0-12.4 7.2-23.7 18.4-29s24.5-3.6 34.1 4.4l192 160c7.3 6.1 11.5 15.1 11.5 24.6s-4.2 18.5-11.5 24.6l-192 160c-9.5 7.9-22.8 9.7-34.1 4.4s-18.4-16.6-18.4-29l0-64z"/></svg>
+        </span>
+
+        <div class="horizontalDrag" id="whoreDragger"></div>
+        `;
+
+        editWorkoutDiv.appendChild(div);
+        decMinsTotal += blockLaps[ind].duration ;
+
+        changeLapWidths();
+        changeLapArrangements();
+        changeLapHeight(ind);
+    });
+} */
+
 function dupeBlockLaps() {
+
+    // add Data to selectedLaps, defineSLsorted
     let selectedLaps = [] ;
     document.querySelectorAll(".selected").forEach((lap) => {
         let ind = Number(lap.ariaLabel) - 1 ;
@@ -925,26 +993,26 @@ function dupeBlockLaps() {
     })
     let selectedLapsSorted = [...selectedLaps].sort((a,b) => a.position - b.position);
     let lastInd = selectedLapsSorted.lastIndexOf();
-    //let lastPos = selectedLapsSorted[lastInd].position ;
-
+    
     selectedLapsSorted.forEach((element) => {
         lap++ ;
         let newInd = element.bLaInd + selectedLapsSorted.length ;
-        console.log("newInd: " + newInd);
-        console.log(selectedLapsSorted);
-        console.log("bLength" + blockLaps.length);
+        let newPos = blockLaps[element.bLaInd].position + selectedLapsSorted.length ;
+        console.log("newInd:" + newInd);
         let namAttr = newInd + 1 ;
-        for (let i = newInd; i < blockLaps.length; i++) {
-            let iNdex = blockLaps.findIndex((p) => p.position === i) ;
-            const lapPR = document.querySelector(`.blockLapDiv-${iNdex + 1}`);
-            console.log("iNdex: " + iNdex);
+        for (let i = newInd; i < blockLaps.length; i++) { //look for laps positioned higher
+            let iNdex = blockLaps.findIndex((p) => p.position === i) ; 
+            console.log(iNdex);
+            let lapPR = document.querySelector(`.blockLapDiv-${iNdex + 1}`);
+            let lapPRscDiv = document.querySelector(`[aria-label = "${iNdex + 1}"]`);
+            lapPRscDiv.ariaLabel = `${iNdex + 2}`;
             blockLaps[iNdex].position = i + 1 ;
-            blockLaps[iNdex].name = i + 2 ;
+            blockLaps[iNdex].name = iNdex + 2 ;
             lapPR.classList.remove(`blockLapDiv-${iNdex + 1}`);
             lapPR.classList.add(`blockLapDiv-${iNdex + 2}`);
         }
         const div = document.createElement("div");
-        div.classList.add(`blockLapDiv-${newInd + 1}`, "blockLapDiv");
+        div.classList.add(`blockLapDiv-${newInd + 1}`, "blockLapDiv", "noSelect");
         div.ariaLabel = lap ;
 
         div.style.cursor = 'default';
@@ -953,7 +1021,7 @@ function dupeBlockLaps() {
             div.style.border = "1px solid #F4D03F" ;
             div.style.borderRadius = "10px" ;
 
-            blockLaps.push({name: newInd + 1, duration: element.duration, power: element.power, width: 500, dockStatus: "docked", height: 80, margintop: 610, marginleft: 0, position: newInd, copyHistory: "copied"});
+            blockLaps.push({name: newInd + 1, duration: element.duration, power: element.power, width: 500, dockStatus: "docked", height: 80, margintop: 610, marginleft: 0, position: newPos, copyHistory: "copied"});
             div.innerHTML += `
             <div class="selectionDiv selectable" aria-label="${newInd + 1}"></div>
             <div class="topInfo"><p id="topInfo-${newInd}">${blockLaps[newInd].power} W</p></div>
