@@ -70,6 +70,7 @@ function getFileName(name) {
 function changeLapWidths() {
     for (let i = 0; i < blockLaps.length; i++) {
         let lapNum = blockLaps[i].name;
+        console.log("lapNum: " + lapNum);
         let blockLap = document.querySelector(`.blockLapDiv-${lapNum}`);
         if (blockLaps[i].dockStatus = "docked") {
             const blockWidth = ((blockLaps[i].duration) / decMinsTotal) * 1000 ;
@@ -930,10 +931,17 @@ function dupeBlockLaps() {
         lap++ ;
         let newInd = element.bLaInd + selectedLapsSorted.length ;
         console.log("newInd: " + newInd);
+        console.log(selectedLapsSorted);
+        console.log("bLength" + blockLaps.length);
         let namAttr = newInd + 1 ;
-        for (let i = newInd; i < blockLaps.lastIndexOf(); i++) {
-            const iNdex = blockLaps.findIndex((p) => p.position == i) ;
-            blockLaps[iNdex].position++ ;
+        for (let i = newInd; i < blockLaps.length; i++) {
+            let iNdex = blockLaps.findIndex((p) => p.position === i) ;
+            const lapPR = document.querySelector(`.blockLapDiv-${iNdex + 1}`);
+            console.log("iNdex: " + iNdex);
+            blockLaps[iNdex].position = i + 1 ;
+            blockLaps[iNdex].name = i + 2 ;
+            lapPR.classList.remove(`blockLapDiv-${iNdex + 1}`);
+            lapPR.classList.add(`blockLapDiv-${iNdex + 2}`);
         }
         const div = document.createElement("div");
         div.classList.add(`blockLapDiv-${newInd + 1}`, "blockLapDiv");
@@ -968,7 +976,7 @@ function dupeBlockLaps() {
             blockLapsSorted = [...blockLaps].sort((a, b) => a.position - b.position);
             changeLapWidths();
             changeLapArrangements();
-            changeLapHeight(newInd);
+            changeLapHeight(blockLaps.length - 1);
         
     });
     console.log(blockLaps);
