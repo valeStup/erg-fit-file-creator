@@ -441,8 +441,8 @@ function moveBlocksAround(e) {
             <div class="verticalDrag noSelect" id="whirrDragger" aria-label="${blockLaps[targetArrNum].name}" ></div>
             <span class="block-svgs">
             <svg id="back-svg-block" class="noSelect" aria-label="${blockLaps[targetArrNum].name}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="back-svg-block" aria-label="${blockLaps[targetArrNum].name}" class="noSelect" d="M459.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4L288 214.3l0 41.7 0 41.7L459.5 440.6zM256 352l0-96 0-128 0-32c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160C4.2 237.5 0 246.5 0 256s4.2 18.5 11.5 24.6l192 160c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-64z"/></svg>
-            <svg id="pencil-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="pencil-svg-block" d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
-            <svg id="bin-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="bin-svg-block" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+            <svg id="pencil-svg-block" class="noSelect" aria-label="${blockLaps[targetArrNum].name}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="pencil-svg-block" class="noSelect" aria-label="${blockLaps[targetArrNum].name}" d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
+            <svg id="bin-svg-block" class="noSelect" aria-label="${blockLaps[targetArrNum].name}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="bin-svg-block" class="noSelect" aria-label="${blockLaps[targetArrNum].name}" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
             <svg id="ahead-svg-block" class="noSelect" aria-label="${blockLaps[targetArrNum].name}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="ahead-svg-block" aria-label="${blockLaps[targetArrNum].name}" class="noSelect" d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4L224 214.3l0 41.7 0 41.7L52.5 440.6zM256 352l0-96 0-128 0-32c0-12.4 7.2-23.7 18.4-29s24.5-3.6 34.1 4.4l192 160c7.3 6.1 11.5 15.1 11.5 24.6s-4.2 18.5-11.5 24.6l-192 160c-9.5 7.9-22.8 9.7-34.1 4.4s-18.4-16.6-18.4-29l0-64z"/></svg>
             </span>
 
@@ -485,14 +485,13 @@ function moveBlocksAround(e) {
         window.addEventListener('mouseup', onMouseUp);
 
     } else if (e.target.id === 'whoreDragger') {
-        console.log(e.target.ariaLabel);
-        const div = document.querySelector(`.blockLapDiv-${e.target.ariaLabel}`);
-        const ind = blockLaps.findIndex((i) => i.name == e.target.ariaLabel) ;
-        console.log(ind);
+        const divName = e.target.ariaLabel ;
+        const div = document.querySelector(`.blockLapDiv-${divName}`);
+        const ind = blockLaps.findIndex((i) => i.name == divName) ;
         let ogDivWidth = blockLaps[ind].width ;
         let ogDivDuration = blockLaps[ind].duration ;
         const startX = e.clientX ;
-        const bottomInfoTxt = document.getElementById(`bottomInfo-${ind}`);
+        const bottomInfoTxt = document.getElementById(`bottomInfo-${divName}`);
 
         const rect = e.target.getBoundingClientRect();
         const offsetX = startX - rect.left ;
@@ -549,7 +548,6 @@ function addNewBlockLap() {
     BlockLapDiv.style.width = '500px' ;
     BlockLapDiv.classList.add(`blockLapDiv-${lap}`, "blockLapDiv", "noSelect");
     BlockLapDiv.name = lap;
-    console.log("lap: " + lap);
     blockLaps.push({name: lap, duration: 20.0, power: 200, width: 500, dockStatus: "free", height: 80, margintop: 610, marginleft: 220, position: pos});
     BlockLapDiv.innerHTML += `
     <span id="editBlockLap">
@@ -565,8 +563,9 @@ function addNewBlockLap() {
 }
 
 function deleteBlockLap(target) {
-    const lapProps = target.closest(".blockLapDiv");
-    const ind = lapProps.ariaLabel - 1 ;
+    const lapName = `${target.ariaLabel}`;
+    const ind = blockLaps.findIndex((p) => p.name === lapName);
+    const lapProps = document.querySelector(`.blockLapDiv-${lapName}`) ;
     decMinsTotal -= blockLaps[ind].duration;
     blockLaps[ind].duration = 0;
     changeLapWidths();
@@ -576,8 +575,7 @@ function deleteBlockLap(target) {
 
 function changePositionPos(target) {
     const lapName = `${target.ariaLabel}` ;
-    console.log(lapName);
-    const ind = blockLaps.findIndex((p) => p.name === lapName) ;
+    const ind = blockLaps.findIndex((p) => p.name == lapName) ;
     let copy = blockLaps[ind].position ;
     blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
     let index = blockLapsSorted.findIndex((e) => e.position === copy);
@@ -591,12 +589,10 @@ function changePositionPos(target) {
 }
 function changePositionNeg(target) {
     const lapName = `${target.ariaLabel}` ;
-    console.log(lapName);
     const ind = blockLaps.findIndex((p) => p.name == lapName) ;
     let copy = blockLaps[ind].position ;
     blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
     let index = blockLapsSorted.findIndex((e) => e.position == copy);
-    console.log(index);
     let Kopie = blockLapsSorted[index - 1].position ;
     let neInd = blockLaps.findIndex((d) => d.position === Kopie);
     blockLaps[ind].position = blockLaps[neInd].position ;   
@@ -620,8 +616,9 @@ editWorkoutDiv.addEventListener("click" , function(e) {
     }
 });
 function editBlockLap(target) {
-    const lapProps = target.closest(".blockLapDiv");
-    const ind = lapProps.ariaLabel - 1  ;
+    const lapName = target.ariaLabel ;
+    const ind = blockLaps.findIndex((p) => p.name == lapName) ;
+    const lapProps = document.querySelector(`.blockLapDiv-${lapName}`);
     const blockDecMinData = blockLaps[ind].duration;
     const blockMinData = minFromDecMin(blockDecMinData);
     const blockSecData = secFromDecMin(blockDecMinData);
@@ -668,6 +665,7 @@ function handleSaveBlockClick(target) {
     const secInput = blockLapInputter.querySelector(".lap-secs").value;
     const powerInput = blockLapInputter.querySelector(".lap-intensity");
     const ind = blockLapInputter.id ;
+    const lapName = blockLaps[ind].name
     const preMins = blockLaps[ind].duration ;
 
     if (!powerInput.value) {
@@ -683,8 +681,8 @@ function handleSaveBlockClick(target) {
     decMinsTotal -= preMins ;
     decMinsTotal += decimalMinutes ;
 
-    const bottomInfoTxt = document.getElementById(`bottomInfo-${ind}`);
-    const topInfoTxt = document.getElementById(`topInfo-${ind}`);
+    const bottomInfoTxt = document.getElementById(`bottomInfo-${lapName}`);
+    const topInfoTxt = document.getElementById(`topInfo-${lapName}`);
     bottomInfoTxt.innerText = `${minFromDecMin(blockLaps[ind].duration)}:${secFromDecMin(blockLaps[ind].duration)}`;
     topInfoTxt.innerText = `${blockLaps[ind].power} W`;
 
@@ -692,7 +690,7 @@ function handleSaveBlockClick(target) {
     updateBlockLap((ind), decimalMinutes, Number(powerInput.value));
     changeLapWidths();
     changeLapHeight(ind);
-    changeLapArrangements(1);
+    changeLapArrangements();
 
     editWorkoutDiv.classList.remove("blurred");
     blockLapInputter.remove();
@@ -897,10 +895,7 @@ function deleteBlockLaps() {
         selectedLaps.push({name: element.ariaLabel});
     })
     selectedLaps = selectedLaps.filter((lap) => lap.name !== null);
-    //let template = selectedLaps[selectedLaps.length - 1].name ;
-    //selectedLaps = selectedLaps.filter((lap) => lap.name === template);
 
-    console.log(selectedLaps);
     selectedLaps.forEach((lap) => {
         const lapIndex = blockLaps.findIndex((p) => p.name == lap.name) ;
         const lapProps = document.querySelector(`.blockLapDiv-${lap.name}`);
@@ -952,11 +947,22 @@ function dupeBlockLaps() {
         lapWhoreDrag.ariaLabel = `${newNameString}`;
 
         const svgSpan = thisLapClone.children[5] ;
-        const backSvgBlock = svgSpan.querySelector('#back-svg-block');
-        const aheadSvgBlock = svgSpan.querySelector('#ahead-svg-block');
-        backSvgBlock.ariaLabel = `${newNameString}`; 
-        aheadSvgBlock.ariaLabel = `${newNameString}`;
-        console.log(backSvgBlock);
+        const backSvgBlock = svgSpan.querySelectorAll('#back-svg-block');
+        const aheadSvgBlock = svgSpan.querySelectorAll('#ahead-svg-block');
+        const binSvgBlock = svgSpan.querySelectorAll('#bin-svg-block');
+        const pencilSvgBlock = svgSpan.querySelectorAll('#pencil-svg-block');
+        backSvgBlock.forEach((e) => {
+            e.ariaLabel = `${newNameString}`;
+        }) ;
+        aheadSvgBlock.forEach((e) => {
+            e.ariaLabel = `${newNameString}`;
+        });
+        binSvgBlock.forEach((e) => {
+            e.ariaLabel = `${newNameString}`;
+        });
+        pencilSvgBlock.forEach((e) => {
+            e.ariaLabel = `${newNameString}`;
+        });
 
         decMinsTotal += blockLaps[lapInd].duration ;
         editWorkoutDiv.appendChild(thisLapClone);
@@ -968,7 +974,6 @@ function dupeBlockLaps() {
         changeLapArrangements() ;
         changeLapHeight(blockLaps.length - 1);
     });
-    console.log(blockLaps);
 
     function getNewPos(ind) {
         if (blockLaps[ind].name.length > 3) {
