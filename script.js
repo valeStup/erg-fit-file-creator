@@ -14,6 +14,7 @@ let dataString = ``;
 let decMinsTotal = 0 ;
 const blockLaps = [] ;
 let blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
+let stopSel = false ;
 
 addWorkoutBtn.addEventListener("click", toggleCreateForm);
 closeCreateFromBtn.addEventListener("click", toggleCreateForm);
@@ -39,7 +40,6 @@ function decideOnBlockBuilder() {
     </div>
     `;
     editWorkoutDiv.appendChild(decider);
-    console.log("mafsdeo");
     const optForMan = document.getElementById('manual-tool');
     optForMan.addEventListener('click', function() {
         addNewWorkout();
@@ -70,7 +70,6 @@ function getFileName(name) {
 function changeLapWidths() {
     for (let i = 0; i < blockLaps.length; i++) {
         let lapNum = blockLaps[i].name;
-        console.log("lapNum: " + lapNum);
         let blockLap = document.querySelector(`.blockLapDiv-${lapNum}`);
         if (blockLaps[i].dockStatus = "docked") {
             const blockWidth = ((blockLaps[i].duration) / decMinsTotal) * 1000 ;
@@ -105,7 +104,7 @@ function changeLapArrangements() {
         let lap = blockLapsSorted[i];
         const blockLap = document.querySelector(`.blockLapDiv-${lap.name}`);
         blockLap.style.left = `${leftMargin}px`;
-        let ogInd = lap.name - 1 ;
+        let ogInd = blockLaps.findIndex((e) => e.position === lap.position) ;
         blockLaps[ogInd].marginleft = leftMargin ;
         leftMargin += lap.width ;  
         
@@ -141,14 +140,11 @@ function AddNewWorkoutBlock() {
 
 const blockWorkoutDurationData = document.getElementById('blockWorkoutDurationData');
 function updateDisplay(totalDur, avgPower) {
-    console.log("mamma mia");
     blockWorkoutDurationData.textContent = `Duration: ${decMinsTotal}`;
 }
 
 function addNewWorkout() {
     editWorkoutDiv.innerHTML = "";
-    editWorkoutDiv.style.width = 
-    console.log("hello");
     if (nameInput.value.length === 0) {nameInput.value = "New Workout"}
     if (ftpInput.value.length === 0) {ftpInput.value = 250.0}
     const fileName = getFileName(nameInput.value);
@@ -185,8 +181,6 @@ function addWorkoutHead() {
 
 
 function handleMinSecOverlap(mins, secs) {
-    console.log(mins);
-    console.log(secs);
     mins = Number(mins) || 0 ;
     secs = Number(secs) || 0 ;
     mins += Math.floor(secs / 60);
@@ -201,7 +195,6 @@ function toDecimalMinutes(mins, secs) {
     secs = Number(secs) || 0 ;
     const decimalMins = (1.0 * (mins + secs / 60)).toFixed(2) ;
     secs -= secs/60 ;
-    console.log(decimalMins) ;
     return Number(decimalMins) ;
 }
 
@@ -220,7 +213,6 @@ function secFromDecMin(decMin) {
 
 function addToDataString(mins, power) {
     dataString += `\n${mins}     ${power}`;
-    console.log(dataString);
 }
 
 editWorkoutDiv.addEventListener("click", function (e) {
@@ -233,7 +225,6 @@ editWorkoutDiv.addEventListener("click", function (e) {
 
 function addNewLap() {
     lap++;
-    console.log("hello");
     const lapEdit = document.createElement("div");
     lapEdit.id = `lap-${lap}`;
     lapEdit.classList.add("lap", "focused");
@@ -337,7 +328,6 @@ function handleDiscarderClick(target) {
 function saveAsErg() {
     const fileName = getFileName(nameInput.value);
     dataString += `\n[END COURSE DATA]`;
-    console.log(dataString);
     const blob = new Blob([dataString], {type: 'text/erg'});
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -351,8 +341,6 @@ editWorkoutDiv.addEventListener("click", function (e) {
         addNewLap();
     } else if (e.target.id === "save-btn") {
         saveAsErg();
-    } else if (e.target.id === "saveBlockLapBtn") {
-        saveNewBlockLap();
     }
 }
 );
@@ -372,9 +360,10 @@ document.addEventListener('mousedown', () => {
 })
 
 function moveBlocksAround(e) {
-    if (e.target.id === 'draggable' && blockLaps[e.target.ariaLabel - 1].dockStatus !== "docked") {
+    const ipie = blockLaps.findIndex((i) => i.name === e.target.name);
+    if (e.target.id === 'draggable' && blockLaps[ipie].dockStatus !== "docked") {
         e.target.style.cursor = 'grabbing' ;
-        const targetArrNum = e.target.ariaLabel - 1 ;
+        const targetArrNum = e.target.name - 1 ;
         e.preventDefault();
         const startX = e.clientX ;
         const startY = e.clientY ;
@@ -446,28 +435,27 @@ function moveBlocksAround(e) {
             div.style.border = "1px solid #F4D03F" ;
             div.style.borderRadius = "10px" ;
             div.innerHTML += `
-            <div class="selectionDiv selectable" aria-label="${targetArrNum + 1}"></div>
-            <div class="topInfo"><p id="topInfo-${targetArrNum}">${blockLaps[targetArrNum].power} W</p></div>
-            <div class="bottomInfo"><p id="bottomInfo-${targetArrNum}" >${minFromDecMin(blockLaps[targetArrNum].duration)}:${secFromDecMin(blockLaps[targetArrNum].duration)}</p></div>
-            <div class="verticalDrag" id="whirrDragger"></div>
+            <div class="selectionDiv selectable" aria-label="${blockLaps[targetArrNum].name}"></div>
+            <div class="topInfo" id="topInfo-${blockLaps[targetArrNum].name}">${blockLaps[targetArrNum].power} W</div>
+            <div class="bottomInfo" id="bottomInfo-${blockLaps[targetArrNum].name}" >${minFromDecMin(blockLaps[targetArrNum].duration)}:${secFromDecMin(blockLaps[targetArrNum].duration)}</div>
+            <div class="verticalDrag noSelect" id="whirrDragger" aria-label="${blockLaps[targetArrNum].name}" ></div>
             <span class="block-svgs">
-            <svg id="back-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="back-svg-block" d="M459.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4L288 214.3l0 41.7 0 41.7L459.5 440.6zM256 352l0-96 0-128 0-32c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160C4.2 237.5 0 246.5 0 256s4.2 18.5 11.5 24.6l192 160c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-64z"/></svg>
+            <svg id="back-svg-block" class="noSelect" aria-label="${blockLaps[targetArrNum].name}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="back-svg-block" aria-label="${blockLaps[targetArrNum].name}" class="noSelect" d="M459.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4L288 214.3l0 41.7 0 41.7L459.5 440.6zM256 352l0-96 0-128 0-32c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160C4.2 237.5 0 246.5 0 256s4.2 18.5 11.5 24.6l192 160c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-64z"/></svg>
             <svg id="pencil-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="pencil-svg-block" d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
             <svg id="bin-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="bin-svg-block" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-            <svg id="ahead-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="ahead-svg-block" d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4L224 214.3l0 41.7 0 41.7L52.5 440.6zM256 352l0-96 0-128 0-32c0-12.4 7.2-23.7 18.4-29s24.5-3.6 34.1 4.4l192 160c7.3 6.1 11.5 15.1 11.5 24.6s-4.2 18.5-11.5 24.6l-192 160c-9.5 7.9-22.8 9.7-34.1 4.4s-18.4-16.6-18.4-29l0-64z"/></svg>
+            <svg id="ahead-svg-block" class="noSelect" aria-label="${blockLaps[targetArrNum].name}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="ahead-svg-block" aria-label="${blockLaps[targetArrNum].name}" class="noSelect" d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4L224 214.3l0 41.7 0 41.7L52.5 440.6zM256 352l0-96 0-128 0-32c0-12.4 7.2-23.7 18.4-29s24.5-3.6 34.1 4.4l192 160c7.3 6.1 11.5 15.1 11.5 24.6s-4.2 18.5-11.5 24.6l-192 160c-9.5 7.9-22.8 9.7-34.1 4.4s-18.4-16.6-18.4-29l0-64z"/></svg>
             </span>
 
-            <div class="horizontalDrag" id="whoreDragger"></div>
+            <div class="horizontalDrag" id="whoreDragger" aria-label="${blockLaps[targetArrNum].name}"></div>
             `;
 
         }
     }else if (e.target.id === 'whirrDragger') {
-        console.log("were in");
-        const div = e.target.closest('.blockLapDiv');
-        const ind = div.ariaLabel - 1 ;
+        const nameAttr = e.target.ariaLabel ;
+        const ind = blockLaps.findIndex((e) => e.name == nameAttr) ;
         let divPower = 200 ;
         const startY = e.clientY ;
-        const topInfoTxt = document.getElementById(`topInfo-${ind}`);
+        const topInfoTxt = document.getElementById(`topInfo-${nameAttr}`);
 
         const rect = e.target.getBoundingClientRect();
         const offsetY = startY - rect.top ;
@@ -491,15 +479,16 @@ function moveBlocksAround(e) {
             e.target.style.cursor = ''; 
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
-            console.log(blockLaps);
         }
 
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('mouseup', onMouseUp);
 
     } else if (e.target.id === 'whoreDragger') {
-        const div = e.target.closest('.blockLapDiv');
-        const ind = div.ariaLabel - 1 ;
+        console.log(e.target.ariaLabel);
+        const div = document.querySelector(`.blockLapDiv-${e.target.ariaLabel}`);
+        const ind = blockLaps.findIndex((i) => i.name == e.target.ariaLabel) ;
+        console.log(ind);
         let ogDivWidth = blockLaps[ind].width ;
         let ogDivDuration = blockLaps[ind].duration ;
         const startX = e.clientX ;
@@ -538,7 +527,6 @@ function moveBlocksAround(e) {
             e.target.style.cursor = ''; 
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
-            console.log(blockLaps);
         }
 
         window.addEventListener('mousemove', onMouseMove);
@@ -551,7 +539,6 @@ function moveBlocksAround(e) {
 function updateBlockLap(ind, newTime, newPower) {
     blockLaps[ind].duration = newTime ;
     blockLaps[ind].power = newPower ;
-    console.log(blockLaps);
 }
 
 function addNewBlockLap() {
@@ -559,9 +546,10 @@ function addNewBlockLap() {
     let pos = 0 ;
     const BlockLapDiv = document.createElement("div");
     BlockLapDiv.id = `draggable`;
-    BlockLapDiv.ariaLabel = lap;
     BlockLapDiv.style.width = '500px' ;
     BlockLapDiv.classList.add(`blockLapDiv-${lap}`, "blockLapDiv", "noSelect");
+    BlockLapDiv.name = lap;
+    console.log("lap: " + lap);
     blockLaps.push({name: lap, duration: 20.0, power: 200, width: 500, dockStatus: "free", height: 80, margintop: 610, marginleft: 220, position: pos});
     BlockLapDiv.innerHTML += `
     <span id="editBlockLap">
@@ -587,28 +575,35 @@ function deleteBlockLap(target) {
 }
 
 function changePositionPos(target) {
-    const lapProps = target.closest(".blockLapDiv");
-    const ind = lapProps.ariaLabel - 1 ;
-        let copy = blockLaps[ind].position;
-        let index = blockLaps.findIndex((e) => e.position === copy + 1);
-        blockLaps[ind].position = blockLaps[index].position ;
-        blockLaps[index].position = copy ;
+    const lapName = `${target.ariaLabel}` ;
+    console.log(lapName);
+    const ind = blockLaps.findIndex((p) => p.name === lapName) ;
+    let copy = blockLaps[ind].position ;
+    blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
+    let index = blockLapsSorted.findIndex((e) => e.position === copy);
+    let Kopie = blockLapsSorted[index + 1].position ;
+    let neInd = blockLaps.findIndex((d) => d.position === Kopie);
+    blockLaps[ind].position = blockLaps[neInd].position ;   
+    blockLaps[neInd].position = copy ;
     
     blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
     changeLapArrangements();
-    console.log(blockLaps);
 }
 function changePositionNeg(target) {
-    const lapProps = target.closest(".blockLapDiv");
-    const ind = lapProps.ariaLabel - 1 ;
-        let copy = blockLaps[ind].position ;
-        let index = blockLaps.findIndex((e) => e.position === copy - 1);
-        blockLaps[ind].position = blockLaps[index].position ;
-        blockLaps[index].position = copy ;
+    const lapName = `${target.ariaLabel}` ;
+    console.log(lapName);
+    const ind = blockLaps.findIndex((p) => p.name == lapName) ;
+    let copy = blockLaps[ind].position ;
+    blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
+    let index = blockLapsSorted.findIndex((e) => e.position == copy);
+    console.log(index);
+    let Kopie = blockLapsSorted[index - 1].position ;
+    let neInd = blockLaps.findIndex((d) => d.position === Kopie);
+    blockLaps[ind].position = blockLaps[neInd].position ;   
+    blockLaps[neInd].position = copy ;
     
     blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
     changeLapArrangements();
-    console.log(blockLaps);
 }
 
 editWorkoutDiv.addEventListener("click" , function(e) {
@@ -673,7 +668,6 @@ function handleSaveBlockClick(target) {
     const secInput = blockLapInputter.querySelector(".lap-secs").value;
     const powerInput = blockLapInputter.querySelector(".lap-intensity");
     const ind = blockLapInputter.id ;
-    console.log(ind);
     const preMins = blockLaps[ind].duration ;
 
     if (!powerInput.value) {
@@ -688,7 +682,6 @@ function handleSaveBlockClick(target) {
 
     decMinsTotal -= preMins ;
     decMinsTotal += decimalMinutes ;
-    console.log(decMinsTotal);
 
     const bottomInfoTxt = document.getElementById(`bottomInfo-${ind}`);
     const topInfoTxt = document.getElementById(`topInfo-${ind}`);
@@ -760,7 +753,6 @@ function deleteLap(target) {
 //selection rectangle stuff
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("loaded");
     let isSelecting = false;
     let selectingrn = false ;
     let startX = 0, startY = 0;
@@ -771,16 +763,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectableElements = document.querySelectorAll(".selectable");
     let selectedElements = [];
     
-  
+    
     document.addEventListener('mousedown', (event) => {
-        console.log("mousedown");
       if (!event.target.closest('.selectable') && !(event.target.id === 'pencil-svg-blockGrp' || event.target.id === 'bin-svg-blockGrp' || event.target.id === 'copy-svg-blockGrp')) {
         selectableElements.forEach((element) => element.classList.remove('selected'));
-        if (selectingrn) {closeGroupLapEditor();}
+        if (selectingrn) {closeGroupLapEditor();
+            stopSel = true ;}
       }
   
       if (event.target.closest('.noSelect')) return; // Prevent rectangle creation in noSelect areas
-  
+      
+      stopSel = false ;
       isSelecting = true;
       startX = event.pageX;
       startY = event.pageY;
@@ -820,7 +813,7 @@ document.addEventListener('DOMContentLoaded', () => {
           rectTop > elementRect.bottom ||
           rectTop + rectHeight < elementRect.top
         );
-        if (overlap) {
+        if (overlap && !(element.classList.contains('.noSelect'))) {
             element.classList.add('selected');
             selectedElements.push({name: element.ariaLabel});
             selectingrn = true ;
@@ -845,7 +838,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         // focus on important
 
-        console.log(selectedElements);
         for (let i = 0; i < selectedElements.length; i++) {
             const lapProps = document.querySelector(`.blockLapDiv-${selectedElements[i].name}`);
             lapProps.classList.add("focused");
@@ -886,11 +878,15 @@ document.addEventListener('DOMContentLoaded', () => {
     selectingrn = false ;
     }
     
-    
+let dupeCount = 0 ;   
 document.addEventListener("click", function(e) {
     if (e.target.id === 'bin-svg-blockGrp') {
         deleteBlockLaps();
     } else if (e.target.id === 'copy-svg-blockGrp') {
+        dupeCount++ ;
+        if (stopSel) {
+            dupeCount = 0;
+        }
         dupeBlockLaps();
     }
 })
@@ -901,11 +897,12 @@ function deleteBlockLaps() {
         selectedLaps.push({name: element.ariaLabel});
     })
     selectedLaps = selectedLaps.filter((lap) => lap.name !== null);
+    //let template = selectedLaps[selectedLaps.length - 1].name ;
+    //selectedLaps = selectedLaps.filter((lap) => lap.name === template);
+
     console.log(selectedLaps);
-
-
     selectedLaps.forEach((lap) => {
-        const lapIndex = lap.name - 1 ;
+        const lapIndex = blockLaps.findIndex((p) => p.name == lap.name) ;
         const lapProps = document.querySelector(`.blockLapDiv-${lap.name}`);
         decMinsTotal -= blockLaps[lapIndex].duration ;
         blockLaps[lapIndex].duration = 0;
@@ -916,139 +913,71 @@ function deleteBlockLaps() {
     closeGroupLapEditor();
 }
 
-/*function dupeBlockLaps() {
-    let selectedLaps = [];
-    document.querySelectorAll('.selected').forEach((element) => {
-        selectedLaps.push({name: element.ariaLabel, blInd: Number(element.ariaLabel) - 1, position: 0, power: 0});
-    })
-
-    let selectedLapsSorted = [...selectedLaps].sort((a, b) => a.position - b.position);
-
-    selectedLapsSorted.forEach((lap) => {
-        let ind = lap.blInd ;
-        lap.position = blockLaps[ind].position ;
-        lap.power = blockLaps[ind].power ;
-
-        let newInd = ind + selectedLapsSorted.length;
-        let newPos = lap.position + selectedLapsSorted.length ;
-
-        for (let i = lap.position + 1; i < blockLaps.length; i++) {
-            let index = blockLaps.findIndex((p) => p.position === i);
-
-            let lapProps = document.querySelector(`.blockLapDiv-${index + 1}`)
-            lapProps.classList.remove(`blockLapDiv-${index + 1}`);
-            lapProps.classList.add(`blockLapDiv-${index + 2}`);
-
-            let lapPropsSelDiv = document.querySelector(`[aria-label = "${blockLaps[ind].name}"]`);
-            lapPropsSelDiv.ariaLabel++ ;
-
-            blockLaps[index].position++ ;
-            blockLaps[index].name++ ;
-        }
-
-        let div = document.createElement("div");
-        div.classList.add(`blockLapDiv-${newInd + 1}`, "blockLapDiv", "noSelect");
-
-        div.style.cursor = 'default';
-        div.style.boxShadow = "none" ;
-        div.style.backgroundColor = "#1C2833";
-        div.style.border = "1px solid #F4D03F" ;
-        div.style.borderRadius = "10px" ;
-
-        blockLaps.push({name: newInd + 1, duration: lap.duration, power: lap.power, width: 500, dockStatus: "docked", height: 80, margintop: 610, marginleft: 0, position: newPos , copyHistory: "copied"});
-        div.innerHTML += `
-        <div class="selectionDiv selectable" aria-label="${newInd + 1}"></div>
-        <div class="topInfo"><p id="topInfo-${newInd}">${blockLaps[newInd].power} W</p></div>
-        <div class="bottomInfo"><p id="bottomInfo-${newInd}" >${minFromDecMin(blockLaps[newInd].duration)}:${secFromDecMin(blockLaps[newInd].duration)}</p></div>
-        <div class="verticalDrag" id="whirrDragger"></div>
-        <span class="block-svgs">
-        <svg id="back-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="back-svg-block" d="M459.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4L288 214.3l0 41.7 0 41.7L459.5 440.6zM256 352l0-96 0-128 0-32c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160C4.2 237.5 0 246.5 0 256s4.2 18.5 11.5 24.6l192 160c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-64z"/></svg>
-        <svg id="pencil-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="pencil-svg-block" d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
-        <svg id="bin-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="bin-svg-block" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-        <svg id="ahead-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="ahead-svg-block" d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4L224 214.3l0 41.7 0 41.7L52.5 440.6zM256 352l0-96 0-128 0-32c0-12.4 7.2-23.7 18.4-29s24.5-3.6 34.1 4.4l192 160c7.3 6.1 11.5 15.1 11.5 24.6s-4.2 18.5-11.5 24.6l-192 160c-9.5 7.9-22.8 9.7-34.1 4.4s-18.4-16.6-18.4-29l0-64z"/></svg>
-        </span>
-
-        <div class="horizontalDrag" id="whoreDragger"></div>
-        `;
-
-        editWorkoutDiv.appendChild(div);
-        decMinsTotal += blockLaps[ind].duration ;
-
-        changeLapWidths();
-        changeLapArrangements();
-        changeLapHeight(ind);
-    });
-} */
-
 function dupeBlockLaps() {
-
-    // add Data to selectedLaps, defineSLsorted
-    let selectedLaps = [] ;
-    document.querySelectorAll(".selected").forEach((lap) => {
-        let ind = Number(lap.ariaLabel) - 1 ;
-        let poser = blockLaps[ind].position ;
-        let power = blockLaps[ind].power ;
-        let duration = blockLaps[ind].duration ;
-        selectedLaps.push({position: poser, bLaInd: ind, power: power, duration: duration});
-    })
-    let selectedLapsSorted = [...selectedLaps].sort((a,b) => a.position - b.position);
-    let lastInd = selectedLapsSorted.lastIndexOf();
-    
-    selectedLapsSorted.forEach((element) => {
+    let selectedLaps  = [] ;
+    document.querySelectorAll('.selected').forEach((element) => {
+        selectedLaps.push({name: element.ariaLabel});
+    });
+    const uniqueSelectedLaps = selectedLaps.filter((o, index, arr) =>
+        arr.findIndex(item => JSON.stringify(item) === JSON.stringify(o)) === index
+    );
+    uniqueSelectedLaps.forEach((e) => {
         lap++ ;
-        let newInd = element.bLaInd + selectedLapsSorted.length ;
-        let newPos = blockLaps[element.bLaInd].position + selectedLapsSorted.length ;
-        console.log("newInd:" + newInd);
-        let namAttr = newInd + 1 ;
-        for (let i = newInd; i < blockLaps.length; i++) { //look for laps positioned higher
-            let iNdex = blockLaps.findIndex((p) => p.position === i) ; 
-            console.log(iNdex);
-            let lapPR = document.querySelector(`.blockLapDiv-${iNdex + 1}`);
-            let lapPRscDiv = document.querySelector(`[aria-label = "${iNdex + 1}"]`);
-            lapPRscDiv.ariaLabel = `${iNdex + 2}`;
-            blockLaps[iNdex].position = i + 1 ;
-            blockLaps[iNdex].name = iNdex + 2 ;
-            lapPR.classList.remove(`blockLapDiv-${iNdex + 1}`);
-            lapPR.classList.add(`blockLapDiv-${iNdex + 2}`);
-        }
-        const div = document.createElement("div");
-        div.classList.add(`blockLapDiv-${newInd + 1}`, "blockLapDiv", "noSelect");
-        div.ariaLabel = lap ;
+        const lapInd = blockLaps.findIndex((p) => p.name == e.name);
+        const thisLap = document.querySelector(`.blockLapDiv-${e.name}`);
+        let thisLapClone = document.createElement("div");
+        thisLapClone = thisLap.cloneNode(true);
 
-        div.style.cursor = 'default';
-            div.style.boxShadow = "none" ;
-            div.style.backgroundColor = "#1C2833";
-            div.style.border = "1px solid #F4D03F" ;
-            div.style.borderRadius = "10px" ;
+        const newNamePostComma = (100 / (selectedLaps.length + dupeCount)).toFixed(0) ;
+        const newPos = getNewPos(lapInd) ;
+        const newNameString = `${e.name}-${newNamePostComma}` ;
+        thisLapClone.classList.remove(`blockLapDiv-${e.name}`);
+        thisLapClone.classList.add(`blockLapDiv-${newNameString}`);
 
-            blockLaps.push({name: newInd + 1, duration: element.duration, power: element.power, width: 500, dockStatus: "docked", height: 80, margintop: 610, marginleft: 0, position: newPos, copyHistory: "copied"});
-            div.innerHTML += `
-            <div class="selectionDiv selectable" aria-label="${newInd + 1}"></div>
-            <div class="topInfo"><p id="topInfo-${newInd}">${blockLaps[newInd].power} W</p></div>
-            <div class="bottomInfo"><p id="bottomInfo-${newInd}" >${minFromDecMin(blockLaps[newInd].duration)}:${secFromDecMin(blockLaps[newInd].duration)}</p></div>
-            <div class="verticalDrag" id="whirrDragger"></div>
-            <span class="block-svgs">
-            <svg id="back-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="back-svg-block" d="M459.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4L288 214.3l0 41.7 0 41.7L459.5 440.6zM256 352l0-96 0-128 0-32c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160C4.2 237.5 0 246.5 0 256s4.2 18.5 11.5 24.6l192 160c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-64z"/></svg>
-            <svg id="pencil-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="pencil-svg-block" d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
-            <svg id="bin-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="bin-svg-block" d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-            <svg id="ahead-svg-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path id="ahead-svg-block" d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4L224 214.3l0 41.7 0 41.7L52.5 440.6zM256 352l0-96 0-128 0-32c0-12.4 7.2-23.7 18.4-29s24.5-3.6 34.1 4.4l192 160c7.3 6.1 11.5 15.1 11.5 24.6s-4.2 18.5-11.5 24.6l-192 160c-9.5 7.9-22.8 9.7-34.1 4.4s-18.4-16.6-18.4-29l0-64z"/></svg>
-            </span>
+        const lapSecDiv = thisLapClone.children[1];
+        lapSecDiv.ariaLabel = '' ;
+        lapSecDiv.ariaLabel = `${newNameString}`;
+        lapSecDiv.classList.remove("selected");
 
-            <div class="horizontalDrag" id="whoreDragger"></div>
-            `;
+        const lapWhirrDrag = thisLapClone.children[4];
+        lapWhirrDrag.ariaLabel = `${newNameString}`;
 
-            editWorkoutDiv.appendChild(div);
+        const lapWhirrInfo = thisLapClone.children[2];
+        lapWhirrInfo.id = `topInfo-${newNameString}`;
 
-            decMinsTotal += blockLaps[newInd].duration ;
+        const lapWhoreInfo = thisLapClone.children[3];
+        lapWhoreInfo.id = `bottomInfo-${newNameString}`;
 
-            blockLapsSorted = [...blockLaps].sort((a, b) => a.position - b.position);
-            changeLapWidths();
-            changeLapArrangements();
-            changeLapHeight(blockLaps.length - 1);
-        
+        const lapWhoreDrag = thisLapClone.children[6];
+        lapWhoreDrag.ariaLabel = `${newNameString}`;
+
+        const svgSpan = thisLapClone.children[5] ;
+        const backSvgBlock = svgSpan.querySelector('#back-svg-block');
+        const aheadSvgBlock = svgSpan.querySelector('#ahead-svg-block');
+        backSvgBlock.ariaLabel = `${newNameString}`; 
+        aheadSvgBlock.ariaLabel = `${newNameString}`;
+        console.log(backSvgBlock);
+
+        decMinsTotal += blockLaps[lapInd].duration ;
+        editWorkoutDiv.appendChild(thisLapClone);
+        blockLaps.push({name: newNameString, duration: blockLaps[lapInd].duration , power: blockLaps[lapInd].power , width: 0, dockStatus: "docked", height: 80, margintop: 610, marginleft: 0, position: newPos});
+        blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
+        //thisLapClone.ariaLabel = blockLaps.length;
+
+        changeLapWidths() ;
+        changeLapArrangements() ;
+        changeLapHeight(blockLaps.length - 1);
     });
     console.log(blockLaps);
-}   
+
+    function getNewPos(ind) {
+        if (blockLaps[ind].name.length > 3) {
+            return blockLaps[ind].position + (0.001 * dupeCount);
+        } else {
+            return blockLaps[ind].position + (0.01 * dupeCount);
+        }
+    }
+}
 
 
 });

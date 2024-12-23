@@ -558,7 +558,7 @@ input.lap-text {
   margin: 0 auto ;
   bottom: 50px ;
 }
-.topInfo > p {
+.topInfo {
   color: #F4D03F ;
 }
 .bottomInfo {
@@ -567,7 +567,7 @@ input.lap-text {
   margin: 0 auto ;
   top: calc(100% - 10px) ;
 }
-.bottomInfo > p {
+.bottomInfo  {
   color: #F4D03F ;
 }
 .block-svgs {
