@@ -1021,7 +1021,7 @@ function morphSequenceA() {
     const morphToA2 = KUTE.fromTo( a1, { path: a1.getAttribute('d') }, { path: a2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToA3 = KUTE.fromTo( a1, { path: a2 }, { path: a3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToA4 = KUTE.fromTo( a1, { path: a3 }, { path: a4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToA1 = KUTE.fromTo( a1, { path: a4 }, { path: a1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToA1 = KUTE.fromTo( a1, { path: a4 }, { path: a1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
                     repeatCount++;
                     if (repeatCount < maxRepeats) {
                         morphSequenceA();
@@ -1042,7 +1042,7 @@ function morphSequenceB() {
     const morphToB2 = KUTE.fromTo( b1, { path: b1.getAttribute('d') }, { path: b2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToB3 = KUTE.fromTo( b1, { path: b2 }, { path: b3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToB4 = KUTE.fromTo( b1, { path: b3 }, { path: b4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToB1 = KUTE.fromTo( b1, { path: b4 }, { path: b1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToB1 = KUTE.fromTo( b1, { path: b4 }, { path: b1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
                     repeatCount++;
                     if (repeatCount < maxRepeats) {
                         morphSequenceB();
@@ -1063,7 +1063,7 @@ function morphSequenceD() {
     const morphToD2 = KUTE.fromTo( d1, { path: d1.getAttribute('d') }, { path: d2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToD3 = KUTE.fromTo( d1, { path: d2 }, { path: d3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToD4 = KUTE.fromTo( d1, { path: d3 }, { path: d4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToD1 = KUTE.fromTo( d1, { path: d4 }, { path: d1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToD1 = KUTE.fromTo( d1, { path: d4 }, { path: d1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
                     repeatCount++;
                     if (repeatCount < maxRepeats) {
                         morphSequenceD();
@@ -1084,7 +1084,7 @@ function morphSequenceE() {
     const morphToE2 = KUTE.fromTo( e1, { path: e1.getAttribute('d') }, { path: e2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToE3 = KUTE.fromTo( e1, { path: e2 }, { path: e3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToE4 = KUTE.fromTo( e1, { path: e3 }, { path: e4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToE1 = KUTE.fromTo( e1, { path: e4 }, { path: e1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToE1 = KUTE.fromTo( e1, { path: e4 }, { path: e1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
                     repeatCount++;
                     if (repeatCount < maxRepeats) {
                         morphSequenceE();
@@ -1105,7 +1105,7 @@ function morphSequenceF() {
     const morphToF2 = KUTE.fromTo( f1, { path: f1.getAttribute('d') }, { path: f2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToF3 = KUTE.fromTo( f1, { path: f2 }, { path: f3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToF4 = KUTE.fromTo( f1, { path: f3 }, { path: f4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToF1 = KUTE.fromTo( f1, { path: f4 }, { path: f1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToF1 = KUTE.fromTo( f1, { path: f4 }, { path: f1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
                     repeatCount++;
                     if (repeatCount < maxRepeats) {
                         morphSequenceF();

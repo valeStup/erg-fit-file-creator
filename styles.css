@@ -32,7 +32,8 @@
 }
 *, html {
     margin: 0 ;
-    font-family: sans-serif ;
+    font-family: sans-serif ;font-family: "Poppins", serif;
+    font-style: normal;
 }
 svg {
     height: 70px ;
@@ -492,8 +493,9 @@ input.lap-text {
 #edit-workout-div > .blockLapDiv {
   height: 80px ;
   border-radius: 20px ;
-  position: fixed ;
-  left: 600px ;
+  position: absolute ;
+  bottom: 600px ;
+  top: 0 ;
   background-color: #212f3d ;
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
   padding: -1px ;
