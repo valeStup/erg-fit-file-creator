@@ -983,6 +983,141 @@ function dupeBlockLaps() {
         }
     }
 }
-
-
 });
+
+//morphing stuff with KUTE.js
+const a1 = document.getElementById('a1');
+const a2 = document.getElementById('a2').getAttribute('d');
+const a3 = document.getElementById('a3').getAttribute('d');
+const a4 = document.getElementById('a4').getAttribute('d');
+
+const b1 = document.getElementById('b1');
+const b2 = document.getElementById('b2').getAttribute('d');
+const b3 = document.getElementById('b3').getAttribute('d');
+const b4 = document.getElementById('b4').getAttribute('d');
+
+const d1 = document.getElementById('d1');
+const d2 = document.getElementById('d2').getAttribute('d');
+const d3 = document.getElementById('d3').getAttribute('d');
+const d4 = document.getElementById('d4').getAttribute('d');
+
+const e1 = document.getElementById('e1');
+const e2 = document.getElementById('e2').getAttribute('d');
+const e3 = document.getElementById('e3').getAttribute('d');
+const e4 = document.getElementById('e4').getAttribute('d');
+
+
+const f1 = document.getElementById('f1');
+const f2 = document.getElementById('f2').getAttribute('d');
+const f3 = document.getElementById('f3').getAttribute('d');
+const f4 = document.getElementById('f4').getAttribute('d');
+
+let repeatCount = 0;
+const maxRepeats = 999 ;
+
+
+//function center
+function morphSequenceA() {
+    const morphToA2 = KUTE.fromTo( a1, { path: a1.getAttribute('d') }, { path: a2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+        const morphToA3 = KUTE.fromTo( a1, { path: a2 }, { path: a3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+            const morphToA4 = KUTE.fromTo( a1, { path: a3 }, { path: a4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToA1 = KUTE.fromTo( a1, { path: a4 }, { path: a1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    repeatCount++;
+                    if (repeatCount < maxRepeats) {
+                        morphSequenceA();
+                    }
+                },
+                });
+                morphToA1.start();
+             }, });
+             morphToA4.start();
+         }, });
+         morphToA3.start();
+    }, });
+    morphToA2.start();
+}
+document.addEventListener('DOMContentLoaded', morphSequenceA);
+
+function morphSequenceB() {
+    const morphToB2 = KUTE.fromTo( b1, { path: b1.getAttribute('d') }, { path: b2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+        const morphToB3 = KUTE.fromTo( b1, { path: b2 }, { path: b3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+            const morphToB4 = KUTE.fromTo( b1, { path: b3 }, { path: b4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToB1 = KUTE.fromTo( b1, { path: b4 }, { path: b1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    repeatCount++;
+                    if (repeatCount < maxRepeats) {
+                        morphSequenceB();
+                    }
+                },
+                });
+                morphToB1.start();
+             }, });
+             morphToB4.start();
+         }, });
+         morphToB3.start();
+    }, });
+    morphToB2.start();
+}
+document.addEventListener('DOMContentLoaded', morphSequenceB);
+
+function morphSequenceD() {
+    const morphToD2 = KUTE.fromTo( d1, { path: d1.getAttribute('d') }, { path: d2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+        const morphToD3 = KUTE.fromTo( d1, { path: d2 }, { path: d3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+            const morphToD4 = KUTE.fromTo( d1, { path: d3 }, { path: d4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToD1 = KUTE.fromTo( d1, { path: d4 }, { path: d1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    repeatCount++;
+                    if (repeatCount < maxRepeats) {
+                        morphSequenceD();
+                    }
+                },
+                });
+                morphToD1.start();
+             }, });
+             morphToD4.start();
+         }, });
+         morphToD3.start();
+    }, });
+    morphToD2.start();
+}
+document.addEventListener('DOMContentLoaded', morphSequenceD);
+
+function morphSequenceE() {
+    const morphToE2 = KUTE.fromTo( e1, { path: e1.getAttribute('d') }, { path: e2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+        const morphToE3 = KUTE.fromTo( e1, { path: e2 }, { path: e3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+            const morphToE4 = KUTE.fromTo( e1, { path: e3 }, { path: e4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToE1 = KUTE.fromTo( e1, { path: e4 }, { path: e1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    repeatCount++;
+                    if (repeatCount < maxRepeats) {
+                        morphSequenceE();
+                    }
+                },
+                });
+                morphToE1.start();
+             }, });
+             morphToE4.start();
+         }, });
+         morphToE3.start();
+    }, });
+    morphToE2.start();
+}
+document.addEventListener('DOMContentLoaded', morphSequenceE);
+
+function morphSequenceF() {
+    const morphToF2 = KUTE.fromTo( f1, { path: f1.getAttribute('d') }, { path: f2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+        const morphToF3 = KUTE.fromTo( f1, { path: f2 }, { path: f3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+            const morphToF4 = KUTE.fromTo( f1, { path: f3 }, { path: f4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                const morphToF1 = KUTE.fromTo( f1, { path: f4 }, { path: f1.getAttribute('d') }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    repeatCount++;
+                    if (repeatCount < maxRepeats) {
+                        morphSequenceF();
+                    }
+                },
+                });
+                morphToF1.start();
+             }, });
+             morphToF4.start();
+         }, });
+         morphToF3.start();
+    }, });
+    morphToF2.start();
+}
+document.addEventListener('DOMContentLoaded', morphSequenceF);

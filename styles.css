@@ -1,3 +1,11 @@
+:root {
+  --base-color: 
+  --base-variant:
+  --text-color:
+  --secondary-text:
+  --primary-color:
+  --accent-color:
+}
 .noSelect {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -39,6 +47,7 @@ div.nav {
     background-color:#17202A   ;
     position: fixed;
     box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, .2);
+    z-index: 2 ;
 }
   nav#navbar {
     position: relative ;
@@ -73,7 +82,7 @@ nav#navbar > ul > li > a.nav-link {
   body {
     background-color: #17202A;
     text-align: center ;
-    overflow: hidden;
+    overflow-x: hidden;
   }
   div.add-workout-app {
     text-align: center ;
@@ -636,4 +645,17 @@ input.lap-text {
 .grpEdit > div.blockGrp-svgs > svg:hover{
   fill:   #d68910   ;
   cursor: pointer ;
+}
+.aboutDiv {
+  height: 800px;
+  width: 100vw;
+  background-color: #212f3d;
+}
+.aboutDiv > svg {
+  position: relative;
+  left: 0 ;
+  top: 130px ;
+  height: 100%;
+  width: 100vw ;
+  z-index: 1 ;
 }
