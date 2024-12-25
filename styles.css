@@ -494,8 +494,8 @@ input.lap-text {
   height: 80px ;
   border-radius: 20px ;
   position: absolute ;
-  bottom: 600px ;
-  top: 0 ;
+  bottom: 0px ;
+  top: 0px ;
   background-color: #212f3d ;
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
   padding: -1px ;
@@ -660,4 +660,7 @@ input.lap-text {
   height: 100%;
   width: 100vw ;
   z-index: 1 ;
+}
+.placeholder {
+  height: 500px;
 }

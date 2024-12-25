@@ -96,9 +96,7 @@ function changeLapHeight(ind) {
 }
 
 function changeLapArrangements() {
-    const rect = editWorkoutDiv.getBoundingClientRect();
-    const leftX = rect.left ;
-    const baseMargin = leftX ;
+    const baseMargin = 0 ;
     let leftMargin = baseMargin ;
     for (let i = 0; i < blockLapsSorted.length; i++) {            
         let lap = blockLapsSorted[i];
@@ -371,10 +369,10 @@ function moveBlocksAround(e) {
         const offsetX = startX - rect.left ;
         const offsetY = startY - rect.top ;
 
-        const minX = 220 ;
-        const minY = 373 ;
-        const maxX = 1220 ;
-        const maxY = 610 ;
+        const minX = 0 ;
+        const minY = 0 ;
+        const maxX = 1000 ;
+        const maxY = 360 ;
 
         let lockIn = false ;
         let lastX = startX ;
@@ -426,7 +424,7 @@ function moveBlocksAround(e) {
             }
             blockLapsSorted = [...blockLaps].sort((a, b) => a.position - b.position);
             changeLapWidths();
-            changeLapArrangements(1);
+            changeLapArrangements();
 
 
             div.style.cursor = 'default';
@@ -548,14 +546,14 @@ function addNewBlockLap() {
     BlockLapDiv.style.width = '500px' ;
     BlockLapDiv.classList.add(`blockLapDiv-${lap}`, "blockLapDiv", "noSelect");
     BlockLapDiv.name = lap;
-    blockLaps.push({name: lap, duration: 20.0, power: 200, width: 500, dockStatus: "free", height: 80, margintop: 610, marginleft: 220, position: pos});
+    blockLaps.push({name: lap, duration: 20.0, power: 200, width: 500, dockStatus: "free", height: 80, margintop: 360, marginleft: 220, position: pos});
     BlockLapDiv.innerHTML += `
     <span id="editBlockLap">
     <p class="hidden" id="blockLapDecMins">20.00</p>
     <p class="hidden" id="blockLapPower">200</p>
    </span>
     `;
-    BlockLapDiv.style.top = '385px' ;
+    BlockLapDiv.style.top = '85px' ;
     editWorkoutDiv.appendChild(BlockLapDiv);
     const blockLapDecMins = 20.0 ;
     decMinsTotal += blockLapDecMins ;
