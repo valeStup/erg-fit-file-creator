@@ -358,14 +358,18 @@ document.addEventListener('mousedown', () => {
 })
 
 function moveBlocksAround(e) {
+    const targetElement = e.target ;
     const ipie = blockLaps.findIndex((i) => i.name === e.target.name);
     if (e.target.id === 'draggable' && blockLaps[ipie].dockStatus !== "docked") {
-        e.target.style.cursor = 'grabbing' ;
+        targetElement.style.cursor = 'grabbing' ;
         const targetArrNum = e.target.name - 1 ;
         e.preventDefault();
+
+        const rect = e.target.getBoundingClientRect();
+        
         const startX = e.clientX ;
         const startY = e.clientY ;
-        const rect = e.target.getBoundingClientRect();
+
         const offsetX = startX - rect.left ;
         const offsetY = startY - rect.top ;
 
@@ -378,36 +382,33 @@ function moveBlocksAround(e) {
         let lastX = startX ;
 
         function onMouseMove(event) {
-            let x = event.clientX - offsetX ;
-            let y = event.clientY - offsetY ;
+            let newX = event.clientX - offsetX ;
+            let newY = event.clientY - offsetY ;
 
-            x = Math.max(minX, Math.min(x, maxX));
-            y = Math.max(minY, Math.min(y, maxY));
-            e.target.style.left = `${x}px`;
-            e.target.style.top = `${y}px`;
+            newX = Math.max(minX, Math.min(newX, maxX));
+            newY = Math.max(minY, Math.min(newY, maxY));
+            targetElement.style.left = `${newX}px`;
+            targetElement.style.top = `${newY}px`;
             
             lastX = event.clientX ;
-            if (y === maxY) {
-                lockIn = true ;
-            }
         }
 
         function onMouseUp() {
             window.removeEventListener('mousemove', onMouseMove) ;
             window.removeEventListener('mouseup', onMouseUp) ;
 
-            if (lockIn === true) {
-                dockInLaps(e.target);
+            if (targetElement.style.top = `${maxY}px`) {
+                dockInLaps(targetElement);
             }
         }
 
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('mouseup', onMouseUp);
 
-        const blockLapDecMinStore = e.target.querySelector('#blockLapDecMins') ;
+        const blockLapDecMinStore = targetElement.querySelector('#blockLapDecMins') ;
         const blockLapDecMinValue = blockLapDecMinStore.textContent ;
 
-        const blockLapPowerStore = e.target.querySelector('#blockLapPower');
+        const blockLapPowerStore = targetElement.querySelector('#blockLapPower');
         const blockLapPowerValue = blockLapPowerStore.textContent ;
 
         function dockInLaps(div) {
@@ -448,24 +449,24 @@ function moveBlocksAround(e) {
             `;
 
         }
-    }else if (e.target.id === 'whirrDragger') {
-        const nameAttr = e.target.ariaLabel ;
+    }else if (targetElement.id === 'whirrDragger') {
+        const nameAttr = targetElement.ariaLabel ;
         const ind = blockLaps.findIndex((e) => e.name == nameAttr) ;
         let divPower = 200 ;
         const startY = e.clientY ;
         const topInfoTxt = document.getElementById(`topInfo-${nameAttr}`);
 
-        const rect = e.target.getBoundingClientRect();
+        const rect = targetElement.getBoundingClientRect();
         const offsetY = startY - rect.top ;
         const minY = 373 ;
         const maxY = 700 ;
 
-        e.target.style.cursor = 'row-resize';
+        targetElement.style.cursor = 'row-resize';
 
 
         function onMouseMove(event) {
             document.body.style.userSelect = 'none';
-            e.target.style.cursor = 'row-resize';
+            targetElement.style.cursor = 'row-resize';
             let y = event.clientY - offsetY ;
             y = Math.max(minY, Math.min(y, maxY));
             divPower = (700 - y) * 2.5 ; 
@@ -474,7 +475,7 @@ function moveBlocksAround(e) {
             topInfoTxt.innerText = `${blockLaps[ind].power} W`;
         }
         function onMouseUp() {
-            e.target.style.cursor = ''; 
+            targetElement.style.cursor = ''; 
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
         }
@@ -482,8 +483,8 @@ function moveBlocksAround(e) {
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('mouseup', onMouseUp);
 
-    } else if (e.target.id === 'whoreDragger') {
-        const divName = e.target.ariaLabel ;
+    } else if (targetElement.id === 'whoreDragger') {
+        const divName = targetElement.ariaLabel ;
         const div = document.querySelector(`.blockLapDiv-${divName}`);
         const ind = blockLaps.findIndex((i) => i.name == divName) ;
         let ogDivWidth = blockLaps[ind].width ;
@@ -491,17 +492,17 @@ function moveBlocksAround(e) {
         const startX = e.clientX ;
         const bottomInfoTxt = document.getElementById(`bottomInfo-${divName}`);
 
-        const rect = e.target.getBoundingClientRect();
+        const rect = targetElement.getBoundingClientRect();
         const offsetX = startX - rect.left ;
-        const minX = 220 ;
-        const maxX = 1420 ;
+        const minX = 0 ;
+        const maxX = 1220 ;
 
-        e.target.style.cursor = 'row-resize';
+        targetElement.style.cursor = 'row-resize';
 
 
         function onMouseMove(event) {
             document.body.style.userSelect = 'none';
-            e.target.style.cursor = 'col-resize';
+            targetElement.style.cursor = 'col-resize';
             let x = event.clientX - offsetX ;
             x = Math.min(maxX, Math.max(minX, x));
 
@@ -521,7 +522,7 @@ function moveBlocksAround(e) {
             changeLapArrangements(1);
         }
         function onMouseUp() {
-            e.target.style.cursor = ''; 
+            targetElement.style.cursor = ''; 
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
         }
@@ -782,41 +783,50 @@ document.addEventListener('DOMContentLoaded', () => {
       selectionRectangle.style.display = 'block';
     });
   
-    // Update rectangle size and check for overlaps
     document.addEventListener('mousemove', (event) => {
-      if (!isSelecting) return;
-      const currentX = event.pageX;
-      const currentY = event.pageY;
-  
-      // Calculate rectangle's position and dimensions
-      const rectLeft = Math.min(startX, currentX);
-      const rectTop = Math.min(startY, currentY);
-      const rectWidth = Math.abs(startX - currentX);
-      const rectHeight = Math.abs(startY - currentY);
-  
-      selectionRectangle.style.left = `${rectLeft}px`;
-      selectionRectangle.style.top = `${rectTop}px`;
-      selectionRectangle.style.width = `${rectWidth}px`;
-      selectionRectangle.style.height = `${rectHeight}px`;
-        
-      selectableElements = document.querySelectorAll(".selectable");
-      // Check overlaps with selectable elements
-      selectableElements.forEach((element) => {
-        const elementRect = element.getBoundingClientRect();
-        const overlap = !(
-          rectLeft > elementRect.right ||
-          rectLeft + rectWidth < elementRect.left ||
-          rectTop > elementRect.bottom ||
-          rectTop + rectHeight < elementRect.top
-        );
-        if (overlap && !(element.classList.contains('.noSelect'))) {
+        if (!isSelecting) return;
+      
+        const currentX = event.pageX;
+        const currentY = event.pageY;
+      
+        const rectLeft = Math.min(startX, currentX);
+        const rectTop = Math.min(startY, currentY);
+        const rectWidth = Math.abs(startX - currentX);
+        const rectHeight = Math.abs(startY - currentY);
+      
+        selectionRectangle.style.left = `${rectLeft}px`;
+        selectionRectangle.style.top = `${rectTop}px`;
+        selectionRectangle.style.width = `${rectWidth}px`;
+        selectionRectangle.style.height = `${rectHeight}px`;
+      
+        selectableElements = document.querySelectorAll(".selectable");
+      
+        const rectBottom = rectTop + rectHeight;
+        const rectRight = rectLeft + rectWidth;
+      
+        selectableElements.forEach((element) => {
+          const elementRect = element.getBoundingClientRect();
+      
+          const elementTop = elementRect.top + window.scrollY;
+          const elementBottom = elementRect.bottom + window.scrollY;
+          const elementLeft = elementRect.left + window.scrollX;
+          const elementRight = elementRect.right + window.scrollX;
+      
+          const overlap = !(
+            rectLeft > elementRight ||
+            rectRight < elementLeft ||
+            rectTop > elementBottom ||
+            rectBottom < elementTop
+          );
+      
+          if (overlap && !element.classList.contains('noSelect')) {
             element.classList.add('selected');
-            selectedElements.push({name: element.ariaLabel});
-            selectingrn = true ;
+            selectedElements.push({ name: element.ariaLabel });
+            selectingrn = true;
             openGroupLapEditor();
-        }
+          }
+        });
       });
-    });
   
     // end selection process
     document.addEventListener('mouseup', () => {
@@ -872,7 +882,7 @@ document.addEventListener('DOMContentLoaded', () => {
         element.remove();
     })
     selectingrn = false ;
-    }
+}
     
 let dupeCount = 0 ;   
 document.addEventListener("click", function(e) {
@@ -964,7 +974,7 @@ function dupeBlockLaps() {
 
         decMinsTotal += blockLaps[lapInd].duration ;
         editWorkoutDiv.appendChild(thisLapClone);
-        blockLaps.push({name: newNameString, duration: blockLaps[lapInd].duration , power: blockLaps[lapInd].power , width: 0, dockStatus: "docked", height: 80, margintop: 610, marginleft: 0, position: newPos});
+        blockLaps.push({name: newNameString, duration: blockLaps[lapInd].duration , power: blockLaps[lapInd].power , width: 0, dockStatus: "docked", height: 80, margintop: 360, marginleft: 0, position: newPos});
         blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
         //thisLapClone.ariaLabel = blockLaps.length;
 
