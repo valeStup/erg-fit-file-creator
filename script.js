@@ -492,13 +492,17 @@ function moveBlocksAround(e) {
         const ind = blockLaps.findIndex((i) => i.name == divName) ;
         let ogDivWidth = blockLaps[ind].width ;
         let ogDivDuration = blockLaps[ind].duration ;
+        console.log(blockLaps);
         const startX = e.pageX ;
         const bottomInfoTxt = document.getElementById(`bottomInfo-${divName}`);
 
         const rect = targetElement.getBoundingClientRect();
-        const offsetX = startX - rect.left ;
+        //const offsetX = startX - rect.left ;
         const minX = 0 ;
         const maxX = 1440 ;
+
+        const conatainerRect = div.getBoundingClientRect();
+        const offsetX = startX - conatainerRect.right ;
 
         targetElement.style.cursor = 'row-resize';
 
@@ -511,12 +515,17 @@ function moveBlocksAround(e) {
             let preMins = blockLaps[ind].duration;
             let marLeft = blockLaps[ind].marginleft ;
 
+            let cursorX = event.pageX ;
+            let newDivWidth = cursorX - conatainerRect.left ;
+
             let x = event.pageX - containerRect.left ;
-            let newDivWidth = x - marLeft;// - offsetX ;
+            //let newDivWidth = x - marLeft - offsetX ;
 
-            newDivWidth = Math.max(0, Math.min(1000, newDivWidth));
-
-            let divDuration = (newDivWidth / ogDivWidth) * ogDivDuration ;
+            newDivWidth = Math.max(0, Math.min(1440, newDivWidth));
+            console.log("newdw: " + newDivWidth);
+            console.log(ogDivWidth);
+            console.log(ogDivDuration);
+            let divDuration = (newDivWidth / ogDivWidth) * (newDivWidth / ogDivWidth) * ogDivDuration ;
             blockLaps[ind].duration = divDuration ;
             
             decMinsTotal -= preMins ;
