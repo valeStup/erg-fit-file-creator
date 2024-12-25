@@ -346,6 +346,11 @@ editWorkoutDiv.addEventListener("click", function(e) {
     if (e.target.id === 'addBlockLapBtn') {
         addNewBlockLap();
     }
+
+    console.log("pageX: " + e.pageX );
+    console.log("screenX: " + e.screenX );
+    console.log("clientX: " + e.clientX );
+    console.log("offsetX: " + e.offsetX );
 } )
 
 editWorkoutDiv.addEventListener('mousedown', moveBlocksAround);
@@ -454,13 +459,9 @@ function moveBlocksAround(e) {
         const nameAttr = targetElement.ariaLabel ;
         const ind = blockLaps.findIndex((e) => e.name == nameAttr) ;
         let divPower = 200 ;
-        const startY = e.screenY ;
-        const topInfoTxt = document.getElementById(`topInfo-${nameAttr}`);
 
-        const rect = targetElement.getBoundingClientRect();
-        const offsetY = startY - rect.top;
-        const minY = 373 ;
-        const maxY = 700 ;
+        const startY = e.pageY - e.screenY  ;
+        const topInfoTxt = document.getElementById(`topInfo-${nameAttr}`);
 
         targetElement.style.cursor = 'row-resize';
 
@@ -468,9 +469,10 @@ function moveBlocksAround(e) {
         function onMouseMove(event) {
             document.body.style.userSelect = 'none';
             targetElement.style.cursor = 'row-resize';
-            let y = event.screenY - offsetY;
-            y = Math.max(minY, Math.min(y, maxY));
-            divPower = (700 - y) * 2.5 ; 
+            
+            let newY = 1475 - event.pageY ;
+            newY = Math.max(0, Math.min(newY, 400));
+            divPower = newY * 2.5 ; 
             blockLaps[ind].power = divPower ;
             changeLapHeight(ind);
             topInfoTxt.innerText = `${blockLaps[ind].power} W`;
@@ -490,7 +492,7 @@ function moveBlocksAround(e) {
         const ind = blockLaps.findIndex((i) => i.name == divName) ;
         let ogDivWidth = blockLaps[ind].width ;
         let ogDivDuration = blockLaps[ind].duration ;
-        const startX = e.screenX ;
+        const startX = e.pageX ;
         const bottomInfoTxt = document.getElementById(`bottomInfo-${divName}`);
 
         const rect = targetElement.getBoundingClientRect();
@@ -504,14 +506,16 @@ function moveBlocksAround(e) {
         function onMouseMove(event) {
             document.body.style.userSelect = 'none';
             targetElement.style.cursor = 'col-resize';
-            let x = event.screenX - offsetX - containerRect.left ; 
-           //let x = event.clientX - offsetX - containerRect.left ;
-            x = Math.min(maxX, Math.max(minX, x));
-
+            console.log("conatainerLeft: " + containerRect.left);
+            
             let preMins = blockLaps[ind].duration;
             let marLeft = blockLaps[ind].marginleft ;
-            let newDivWidth = (x - marLeft) ; 
-            newDivWidth = Math.min(1000, Math.max(0, newDivWidth));
+
+            let x = event.pageX - containerRect.left ;
+            let newDivWidth = x - marLeft;// - offsetX ;
+
+            newDivWidth = Math.max(0, Math.min(1000, newDivWidth));
+
             let divDuration = (newDivWidth / ogDivWidth) * ogDivDuration ;
             blockLaps[ind].duration = divDuration ;
             
@@ -521,7 +525,7 @@ function moveBlocksAround(e) {
             bottomInfoTxt.innerText = `${minFromDecMin(blockLaps[ind].duration)}:${secFromDecMin(blockLaps[ind].duration)}`;
 
             changeLapWidths();
-            changeLapArrangements(1);
+            changeLapArrangements();
         }
         function onMouseUp() {
             targetElement.style.cursor = ''; 
@@ -1000,27 +1004,42 @@ const a1 = document.getElementById('a1');
 const a2 = document.getElementById('a2').getAttribute('d');
 const a3 = document.getElementById('a3').getAttribute('d');
 const a4 = document.getElementById('a4').getAttribute('d');
+const a5 = document.getElementById('a5').getAttribute('d');
+const a6 = document.getElementById('a6').getAttribute('d');
+const a7 = document.getElementById('a7').getAttribute('d');
 
 const b1 = document.getElementById('b1');
 const b2 = document.getElementById('b2').getAttribute('d');
 const b3 = document.getElementById('b3').getAttribute('d');
 const b4 = document.getElementById('b4').getAttribute('d');
+const b5 = document.getElementById('b5').getAttribute('d');
+const b6 = document.getElementById('b6').getAttribute('d');
+const b7 = document.getElementById('b7').getAttribute('d');
 
 const d1 = document.getElementById('d1');
 const d2 = document.getElementById('d2').getAttribute('d');
 const d3 = document.getElementById('d3').getAttribute('d');
 const d4 = document.getElementById('d4').getAttribute('d');
+const d5 = document.getElementById('d5').getAttribute('d');
+const d6 = document.getElementById('d6').getAttribute('d');
+const d7 = document.getElementById('d7').getAttribute('d');
 
 const e1 = document.getElementById('e1');
 const e2 = document.getElementById('e2').getAttribute('d');
 const e3 = document.getElementById('e3').getAttribute('d');
 const e4 = document.getElementById('e4').getAttribute('d');
+const e5 = document.getElementById('e5').getAttribute('d');
+const e6 = document.getElementById('e6').getAttribute('d');
+const e7 = document.getElementById('e7').getAttribute('d');
 
 
 const f1 = document.getElementById('f1');
 const f2 = document.getElementById('f2').getAttribute('d');
 const f3 = document.getElementById('f3').getAttribute('d');
 const f4 = document.getElementById('f4').getAttribute('d');
+const f5 = document.getElementById('f5').getAttribute('d');
+const f6 = document.getElementById('f6').getAttribute('d');
+const f7 = document.getElementById('f7').getAttribute('d');
 
 let repeatCount = 0;
 const maxRepeats = 999 ;
@@ -1031,14 +1050,23 @@ function morphSequenceA() {
     const morphToA2 = KUTE.fromTo( a1, { path: a1.getAttribute('d') }, { path: a2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToA3 = KUTE.fromTo( a1, { path: a2 }, { path: a3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToA4 = KUTE.fromTo( a1, { path: a3 }, { path: a4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToA1 = KUTE.fromTo( a1, { path: a4 }, { path: a1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
-                    repeatCount++;
-                    if (repeatCount < maxRepeats) {
-                        morphSequenceA();
-                    }
-                },
-                });
-                morphToA1.start();
+                const morphToA5 = KUTE.fromTo( a1, { path: a4 }, { path: a5 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    const morphToA6 = KUTE.fromTo( a1, { path: a5 }, { path: a6 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                        const morphToA7 = KUTE.fromTo( a1, { path: a6 }, { path: a7 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                            const morphToA1 = KUTE.fromTo( a1, { path: a7 }, { path: a1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
+                                repeatCount++;
+                                if (repeatCount < maxRepeats) {
+                                    morphSequenceA();
+                                }
+                            },
+                            });
+                            morphToA1.start();
+                         }, });
+                         morphToA7.start();
+                     }, });
+                     morphToA6.start();
+                 }, });
+                 morphToA5.start();
              }, });
              morphToA4.start();
          }, });
@@ -1052,14 +1080,23 @@ function morphSequenceB() {
     const morphToB2 = KUTE.fromTo( b1, { path: b1.getAttribute('d') }, { path: b2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToB3 = KUTE.fromTo( b1, { path: b2 }, { path: b3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToB4 = KUTE.fromTo( b1, { path: b3 }, { path: b4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToB1 = KUTE.fromTo( b1, { path: b4 }, { path: b1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
-                    repeatCount++;
-                    if (repeatCount < maxRepeats) {
-                        morphSequenceB();
-                    }
-                },
-                });
-                morphToB1.start();
+                const morphToB5 = KUTE.fromTo( b1, { path: b4 }, { path: b5 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    const morphToB6 = KUTE.fromTo( b1, { path: b5 }, { path: b6 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                        const morphToB7 = KUTE.fromTo( b1, { path: b6 }, { path: b7 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                            const morphToB1 = KUTE.fromTo( b1, { path: b7 }, { path: b1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
+                                repeatCount++;
+                                if (repeatCount < maxRepeats) {
+                                    morphSequenceB();
+                                }
+                            },
+                            });
+                            morphToB1.start();
+                         }, });
+                         morphToB7.start();
+                     }, });
+                     morphToB6.start();
+                 }, });
+                 morphToB5.start();
              }, });
              morphToB4.start();
          }, });
@@ -1073,14 +1110,23 @@ function morphSequenceD() {
     const morphToD2 = KUTE.fromTo( d1, { path: d1.getAttribute('d') }, { path: d2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToD3 = KUTE.fromTo( d1, { path: d2 }, { path: d3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToD4 = KUTE.fromTo( d1, { path: d3 }, { path: d4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToD1 = KUTE.fromTo( d1, { path: d4 }, { path: d1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
-                    repeatCount++;
-                    if (repeatCount < maxRepeats) {
-                        morphSequenceD();
-                    }
-                },
-                });
-                morphToD1.start();
+                const morphToD5 = KUTE.fromTo( d1, { path: d4 }, { path: d5 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    const morphToD6 = KUTE.fromTo( d1, { path: d5 }, { path: d6 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                        const morphToD7 = KUTE.fromTo( d1, { path: d6 }, { path: d7 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                            const morphToD1 = KUTE.fromTo( d1, { path: d7 }, { path: d1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
+                                repeatCount++;
+                                if (repeatCount < maxRepeats) {
+                                    morphSequenceD();
+                                }
+                            },
+                            });
+                            morphToD1.start();
+                         }, });
+                         morphToD7.start();
+                     }, });
+                     morphToD6.start();
+                 }, });
+                 morphToD5.start();
              }, });
              morphToD4.start();
          }, });
@@ -1094,14 +1140,23 @@ function morphSequenceE() {
     const morphToE2 = KUTE.fromTo( e1, { path: e1.getAttribute('d') }, { path: e2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToE3 = KUTE.fromTo( e1, { path: e2 }, { path: e3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToE4 = KUTE.fromTo( e1, { path: e3 }, { path: e4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToE1 = KUTE.fromTo( e1, { path: e4 }, { path: e1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
-                    repeatCount++;
-                    if (repeatCount < maxRepeats) {
-                        morphSequenceE();
-                    }
-                },
-                });
-                morphToE1.start();
+                const morphToE5 = KUTE.fromTo( e1, { path: e4 }, { path: e5 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    const morphToE6 = KUTE.fromTo( e1, { path: e5 }, { path: e6 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                        const morphToE7 = KUTE.fromTo( e1, { path: e6 }, { path: e7 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                            const morphToE1 = KUTE.fromTo( e1, { path: e7 }, { path: e1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
+                                repeatCount++;
+                                if (repeatCount < maxRepeats) {
+                                    morphSequenceE();
+                                }
+                            },
+                            });
+                            morphToE1.start();
+                         }, });
+                         morphToE7.start();
+                     }, });
+                     morphToE6.start();
+                 }, });
+                 morphToE5.start();
              }, });
              morphToE4.start();
          }, });
@@ -1115,14 +1170,23 @@ function morphSequenceF() {
     const morphToF2 = KUTE.fromTo( f1, { path: f1.getAttribute('d') }, { path: f2 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
         const morphToF3 = KUTE.fromTo( f1, { path: f2 }, { path: f3 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
             const morphToF4 = KUTE.fromTo( f1, { path: f3 }, { path: f4 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
-                const morphToF1 = KUTE.fromTo( f1, { path: f4 }, { path: f1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
-                    repeatCount++;
-                    if (repeatCount < maxRepeats) {
-                        morphSequenceF();
-                    }
-                },
-                });
-                morphToF1.start();
+                const morphToF5 = KUTE.fromTo( f1, { path: f4 }, { path: f5 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                    const morphToF6 = KUTE.fromTo( f1, { path: f5 }, { path: f6 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                        const morphToF7 = KUTE.fromTo( f1, { path: f6 }, { path: f7 }, {duration: 1000, easing: 'easingCubicInOut', onComplete: () => {
+                            const morphToF1 = KUTE.fromTo( f1, { path: f7 }, { path: f1.getAttribute('d') }, {duration: 10, easing: 'easingCubicInOut', onComplete: () => {
+                                repeatCount++;
+                                if (repeatCount < maxRepeats) {
+                                    morphSequenceF();
+                                }
+                            },
+                            });
+                            morphToF1.start();
+                         }, });
+                         morphToF7.start();
+                     }, });
+                     morphToF6.start();
+                 }, });
+                 morphToF5.start();
              }, });
              morphToF4.start();
          }, });
