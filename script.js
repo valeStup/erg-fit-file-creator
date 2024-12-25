@@ -360,18 +360,22 @@ document.addEventListener('mousedown', () => {
 function moveBlocksAround(e) {
     const targetElement = e.target ;
     const ipie = blockLaps.findIndex((i) => i.name === e.target.name);
+    const containerRect = editWorkoutDiv.getBoundingClientRect();
     if (e.target.id === 'draggable' && blockLaps[ipie].dockStatus !== "docked") {
         targetElement.style.cursor = 'grabbing' ;
         const targetArrNum = e.target.name - 1 ;
         e.preventDefault();
 
-        const rect = e.target.getBoundingClientRect();
+        const rect = targetElement.getBoundingClientRect();
         
+        const offsetX = e.clientX - rect.left ;
+        const offsetY = e.clientY - rect.top ;
+
         const startX = e.clientX ;
         const startY = e.clientY ;
 
-        const offsetX = startX - rect.left ;
-        const offsetY = startY - rect.top ;
+
+        console.log("client: " + e.clientY);
 
         const minX = 0 ;
         const minY = 0 ;
@@ -382,8 +386,8 @@ function moveBlocksAround(e) {
         let lastX = startX ;
 
         function onMouseMove(event) {
-            let newX = event.clientX - offsetX ;
-            let newY = event.clientY - offsetY ;
+            let newX = event.clientX - containerRect.left - 250   ;
+            let newY = event.clientY - containerRect.top - 40 ;
 
             newX = Math.max(minX, Math.min(newX, maxX));
             newY = Math.max(minY, Math.min(newY, maxY));
@@ -391,25 +395,22 @@ function moveBlocksAround(e) {
             targetElement.style.top = `${newY}px`;
             
             lastX = event.clientX ;
+            if (newY === maxY) {
+                lockIn = true ;
+            }
         }
 
         function onMouseUp() {
             window.removeEventListener('mousemove', onMouseMove) ;
             window.removeEventListener('mouseup', onMouseUp) ;
 
-            if (targetElement.style.top = `${maxY}px`) {
+            if (targetElement.style.top === `${maxY}px`) {
                 dockInLaps(targetElement);
             }
         }
 
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('mouseup', onMouseUp);
-
-        const blockLapDecMinStore = targetElement.querySelector('#blockLapDecMins') ;
-        const blockLapDecMinValue = blockLapDecMinStore.textContent ;
-
-        const blockLapPowerStore = targetElement.querySelector('#blockLapPower');
-        const blockLapPowerValue = blockLapPowerStore.textContent ;
 
         function dockInLaps(div) {
             blockLaps[targetArrNum].dockStatus = "docked";
@@ -453,11 +454,11 @@ function moveBlocksAround(e) {
         const nameAttr = targetElement.ariaLabel ;
         const ind = blockLaps.findIndex((e) => e.name == nameAttr) ;
         let divPower = 200 ;
-        const startY = e.clientY ;
+        const startY = e.screenY ;
         const topInfoTxt = document.getElementById(`topInfo-${nameAttr}`);
 
         const rect = targetElement.getBoundingClientRect();
-        const offsetY = startY - rect.top ;
+        const offsetY = startY - rect.top;
         const minY = 373 ;
         const maxY = 700 ;
 
@@ -467,7 +468,7 @@ function moveBlocksAround(e) {
         function onMouseMove(event) {
             document.body.style.userSelect = 'none';
             targetElement.style.cursor = 'row-resize';
-            let y = event.clientY - offsetY ;
+            let y = event.screenY - offsetY;
             y = Math.max(minY, Math.min(y, maxY));
             divPower = (700 - y) * 2.5 ; 
             blockLaps[ind].power = divPower ;
@@ -489,13 +490,13 @@ function moveBlocksAround(e) {
         const ind = blockLaps.findIndex((i) => i.name == divName) ;
         let ogDivWidth = blockLaps[ind].width ;
         let ogDivDuration = blockLaps[ind].duration ;
-        const startX = e.clientX ;
+        const startX = e.screenX ;
         const bottomInfoTxt = document.getElementById(`bottomInfo-${divName}`);
 
         const rect = targetElement.getBoundingClientRect();
         const offsetX = startX - rect.left ;
         const minX = 0 ;
-        const maxX = 1220 ;
+        const maxX = 1440 ;
 
         targetElement.style.cursor = 'row-resize';
 
@@ -503,7 +504,8 @@ function moveBlocksAround(e) {
         function onMouseMove(event) {
             document.body.style.userSelect = 'none';
             targetElement.style.cursor = 'col-resize';
-            let x = event.clientX - offsetX ;
+            //let x = event.screenX - offsetX - (containerRect.right - window.innerWidth); 
+           let x = event.clientX - offsetX - containerRect.left ;
             x = Math.min(maxX, Math.max(minX, x));
 
             let preMins = blockLaps[ind].duration;
