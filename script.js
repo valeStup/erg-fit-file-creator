@@ -504,8 +504,8 @@ function moveBlocksAround(e) {
         function onMouseMove(event) {
             document.body.style.userSelect = 'none';
             targetElement.style.cursor = 'col-resize';
-            //let x = event.screenX - offsetX - (containerRect.right - window.innerWidth); 
-           let x = event.clientX - offsetX - containerRect.left ;
+            let x = event.screenX - offsetX - containerRect.left ; 
+           //let x = event.clientX - offsetX - containerRect.left ;
             x = Math.min(maxX, Math.max(minX, x));
 
             let preMins = blockLaps[ind].duration;
