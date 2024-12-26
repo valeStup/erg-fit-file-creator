@@ -16,29 +16,27 @@
     <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/dist/kute.min.js "></script>
     <script src="https://cdn.jsdelivr.net/npm/kute.js/dist/kute.min.js"></script>
 </head>
-<body>
+<body class="noSelect">
     <header>
         <div class="nav">
             
             <nav id="navbar">
                 <ul class="noSelect">
-                    <li><svg fill="#F4D03F" id="bar-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M160 80c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 352c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-352zM0 272c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 160c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48L0 272zM368 96l32 0c26.5 0 48 21.5 48 48l0 288c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48z"/></svg></li>
-                    <li class="hoverUnder"><a class="nav-link">About</a></li>
-                    <li class="hoverUnder"><a class="nav-link">Create Workout</a></li>
-                    <li class="hoverUnder"><a class="nav-link">Examples</a></li>
+                    <li><a href="#aboutDiv"><svg fill="#F4D03F" id="bar-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M160 80c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 352c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-352zM0 272c0-26.5 21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 160c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48L0 272zM368 96l32 0c26.5 0 48 21.5 48 48l0 288c0 26.5-21.5 48-48 48l-32 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48z"/></svg></li></a>
+                    <li class="hoverUnder"><a class="nav-link" href="#aboutDiv">About</a></li>
+                    <li class="hoverUnder"><a class="nav-link" href="#fence">Create Workout</a></li>
+                    <li class="hoverUnder"><a class="nav-link" href="#placeholder">Examples</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-    <section class="aboutDiv">
+    <section class="aboutDiv noSelect" id="aboutDiv">
         <div class="desc-text noSelect">
             <h1>Interval Build</h1>
             <p class="subtitle">
                 Plan cycling workouts
             </p>
-            <p class="starter hoverUnder"> 
-                Start now <e class="arrowChar">→</e>
-            </p>
+                <a class="starter hoverUnder" href="#fence" >Start now <e class="arrowChar">→</e></a>
         </div>
         <svg width="868" height="485" viewBox="0 0 868 485" fill="none" xmlns="http://www.w3.org/2000/svg">
             
@@ -126,7 +124,7 @@
             
         </span>
     </div>
-    <div class="placeholder" ></div>
+    <div class="placeholder" id="placeholder" ></div>
     <script src="script.js"></script>
 </body>
 </html>

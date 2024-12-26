@@ -40,7 +40,10 @@ svg {
     position: absolute ;
     bottom: -20px ;
     right: 90% ;
-    cursor: pointer;
+}
+svg#bar-svg {
+
+  cursor: pointer;
 }
 div.nav {
     width: 100% ;
@@ -688,12 +691,8 @@ input.lap-text {
   top: 100px ;
   font-weight: 400 ;
   font-size: 40px; 
-}
-.starter > a {
-  font-weight: 400;
-  font-size: 50px;
-  position: relative;
-  top: 5px ;
+  color: #FDFEFE ;
+  text-decoration: none;
 }
 .hoverUnder {
   width: max-content;
