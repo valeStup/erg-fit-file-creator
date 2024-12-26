@@ -525,7 +525,7 @@ function moveBlocksAround(e) {
             console.log("newdw: " + newDivWidth);
             console.log(ogDivWidth);
             console.log(ogDivDuration);
-            let divDuration = (newDivWidth / ogDivWidth) * (newDivWidth / ogDivWidth) * ogDivDuration ;
+            let divDuration = Math.pow((newDivWidth / ogDivWidth), 2) * ogDivDuration ;
             blockLaps[ind].duration = divDuration ;
             
             decMinsTotal -= preMins ;
