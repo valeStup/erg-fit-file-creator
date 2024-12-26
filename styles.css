@@ -1,10 +1,20 @@
 :root {
-  --base-color: 
-  --base-variant:
-  --text-color:
-  --secondary-text:
-  --primary-color:
-  --accent-color:
+  --base-color: #F4F6F6;
+  --base-variant: #e8e9ed ;
+  --base-variant-tert: #eeeeee  ;
+  --text-color: #17202A ;
+  --secondary-text: #212f3d ;
+  --primary-color: #0071ff ;
+  --accent-color: ;
+}
+.dark-mode {
+  --base-color: #212f3d;
+  --base-variant: #17202A ;
+  --base-variant-tert: #1C2833 ;
+  --text-color: #F4F6F6 ;
+  --secondary-text: #AEB6BF ;
+  --primary-color: #F4D03F ;
+  --accent-color: ;
 }
 .noSelect {
   -webkit-tap-highlight-color: transparent;
@@ -34,6 +44,7 @@
     margin: 0 ;
     font-family: sans-serif ;font-family: "Poppins", serif;
     font-style: normal;
+    scroll-behavior: smooth;
 }
 svg {
     height: 70px ;
@@ -42,14 +53,14 @@ svg {
     right: 90% ;
 }
 svg#bar-svg {
-
+  fill: var(--primary-color);
   cursor: pointer;
 }
 div.nav {
     width: 100% ;
     margin-bottom: 0 ;
     height: 100px ;
-    background-color:#17202A   ;
+    background-color:var(--base-variant)   ;
     position: fixed;
     top: 0 ;
     box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, .2);
@@ -74,15 +85,43 @@ div.nav {
     padding: 0 ;
     margin: 0 ;
 }
+#themeswitch {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  padding: 0;
+  background-color: var(--base-variant);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 20px ;
+  right: 20px;
+}
+#themeswitch > svg {
+  fill: var(--primary-color);
+  position: relative;
+  left: 0px ;
+  bottom: 0px;
+}
+#themeswitch > svg:last-child {
+  display: none;
+}
+.dark-mode #themeswitch > svg:first-child {
+  display: none ;
+}
+.dark-mode #themeswitch > svg:last-child {
+  display: block;
+}
 nav#navbar > ul > li > a.nav-link {
     text-decoration: none ;
-    color: #FDFEFE ;
+    color: var(--text-color) ;
     padding: 37px ;
     margin: 0 ;
     font-size: 1.5rem ;
   }
   body {
-    background-color: #17202A;
+    background-color: var(--base-variant);
     text-align: center ;
     overflow-x: hidden;
   }
@@ -100,7 +139,7 @@ nav#navbar > ul > li > a.nav-link {
   div#create-form-div {
     position: relative;
     z-index: 2 ;
-    background-color: #1C2833;
+    background-color: var(--base-variant-tert);
     width: 500px ;
     height: 600px ;
     border-radius: 20px ;
@@ -115,14 +154,17 @@ nav#navbar > ul > li > a.nav-link {
     margin: 0 auto ;
     font-size: 1.5rem ;
     border-radius: 10px ;
-    color: #F4D03F;
-    background-color: #17202A;
-    border: 1px solid #F4D03F ;
+    color: var(--primary-color);
+    background-color: var(--base-variant);
+    border: 1px solid var(--primary-color) ;
     transition: all 0.2s ease-in-out;
   }
+  div#create-form-div > form > div.create-form-inputs label {
+    color: var(--secondary-text);
+  }
   button#open-create-form-btn:hover {
-    color: #17202A;
-    background-color: #F4D03F;
+    color: var(--base-variant);
+    background-color: var(--primary-color);
   cursor: pointer ;
   }
 
@@ -196,14 +238,14 @@ button#add-workout-head {
     margin: 0 auto ;
     font-size: 1.5rem ;
     border-radius: 10px ;
-    background-color: #1C2833;
-    color: #F4D03F;
-    border: 1px solid #F4D03F ;
+    background-color: var(--base-variant-tert);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color) ;
     transition: all 0.2s ease-in-out;
 }
 button#add-workout-head:hover {
-    color: #1C2833;
-    background-color: #F4D03F;
+    color: var(--base-variant-tert);
+    background-color: var(--primary-color);
     box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
   cursor: pointer ;
 }
@@ -215,7 +257,7 @@ span#edit-workout-div {
     position: relative;
     top: 80px ;
     height: 600px ;
-    background-color: #1C2833 ;
+    background-color: var(--base-variant-tert) ;
     text-align: center;
     border-radius: 20px ;
     box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, .2);
@@ -233,11 +275,11 @@ span#edit-workout-div {
 }
 .editHead {
     margin: 30px ;
-    background-color: #1C2833;
+    background-color: var(--base-variant-tert);
     height: 100px;
     margin: auto ;
     width: 100%;
-    color: #FDFEFE ;
+    color: var(--text-color) ;
     text-align: left;
     border-radius: 20px 20px 0 0 ;
     
@@ -257,15 +299,15 @@ span#edit-workout-div {
     display: flex ;
     flex-direction: row;
     justify-content: space-evenly;
-    background-color: #1C2833;
+    background-color: var(--base-variant-tert);
 }
 .addLapOrSaveBtn {
-    background-color: #1C2833;;
+    background-color: var(--base-variant-tert);;
     height: 40px ;
     width: 250px ;
-    border-bottom: 3px solid #F4D03F;
+    border-bottom: 3px solid var(--primary-color);
     font-size: 30px ;
-    color: #F4D03F;
+    color: var(--primary-color);
     outline: none;
     display: inline-block ;
     line-height: 40px;
@@ -278,15 +320,15 @@ span#edit-workout-div {
   width: 500px ;
 }
 .addLapOrSaveBtn:hover {
-    background-color: #F4D03F;
-    color: #1C2833;
-    border-bottom: 3px solid #F4D03F;
+    background-color: var(--primary-color);
+    color: var(--base-variant-tert);
+    border-bottom: 3px solid var(--primary-color);
     cursor: pointer;
 }
 .addLapOrSaveBtn:active {
-    background-color: #1C2833;
-    color: #F4D03F;
-    border-bottom: 3px solid #AEB6BF;
+    background-color: var(--base-variant-tert);
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--secondary-text);
     transform: scale(1);
 }
 input[type="number"]::-webkit-inner-spin-button,
@@ -298,9 +340,9 @@ input[type="number"]::-webkit-outer-spin-button {
   flex-direction: column ;
   margin: 25px;
   padding: 15px ;
-  border: 2px solid #1C2833;
+  border: 2px solid var(--base-variant-tert);
   border-radius: 10px;
-  background-color: #AEB6BF;
+  background-color: var(--secondary-text);
   height: 180px;;
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
   position: absolute;
@@ -344,21 +386,21 @@ input.lap-text {
   height: 30px ;
   margin-left: 50px;
   font-size: 20px ;
-  border: 2px solid #1C2833 ;
+  border: 2px solid var(--base-variant-tert) ;
   border-radius: 5px;
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
-  background-color: #F4F6F6;
+  background-color: var(--text-color);
   transition: all 0.2s ease-in-out;
 }
 .lap > span > button.addLap:hover {
   cursor: pointer;
   background-color: #138D75;
-  color: #F4F6F6;
+  color: var(--text-color);
 }
 .lap > span > button.discardLap:hover {
   cursor: pointer;
   background-color: #C0392B;
-  color: #F4F6F6;
+  color: var(--text-color);
 }
 #edit-workout-div > .lapDataNShi {
   display: flex;
@@ -366,7 +408,7 @@ input.lap-text {
   margin: 10px 0 ;
   position: relative;
   z-index: 1;
-  color: #AEB6BF;
+  color: var(--secondary-text);
 }
 #edit-workout-div > .lapDataNShi > #lap-data-right {
   padding: 5px ;
@@ -413,7 +455,7 @@ input.lap-text {
   display: none ;
 }
 #edit-workout-div > div#decider {
-  background-color: #1C2833;
+  background-color: var(--base-variant-tert);
   height: 100% ;
   border-radius: 20px;
   overflow: hidden;
@@ -422,8 +464,8 @@ input.lap-text {
   position: relative;
   top: 0px ;
   font-size: 25px ;
-  color: #FDFEFE;
-  background-color: #212F3D;
+  color: var(--text-color);
+  background-color: var(--base-color);
   height: 100px ;
   position: relative;
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
@@ -444,15 +486,15 @@ input.lap-text {
 #edit-workout-div > div#decider > .tool-options > span {
   width: 200px ;
   border-radius: 20px;
-  background-color: #AEB6BF;
+  background-color: var(--secondary-text);
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
 }
 #edit-workout-div > div#decider > .tool-options > span > p {
   padding: 10px ;
   padding-bottom: 12px ;
-  background-color: #212F3D;
+  background-color: var(--base-color);
   border-radius: 20px 20px 0 0 ;
-  color: #EAEDED;
+  color: var(--text-color);
   font-size: 20px;
   position: relative;
   box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, .2);
@@ -462,23 +504,23 @@ input.lap-text {
   left: 0 ;
   top: 50px ;
   height: 100px ;
-  fill: #212F3D;
+  fill: var(--base-color);
 
 }
 #edit-workout-div > div#decider > .tool-options > span:hover {
-  background-color: #212F3D;
+  background-color: var(--base-color);
   cursor: pointer;
-  box-shadow: 0px 0px 3px 3px #F4D03F;
+  box-shadow: 0px 0px 3px 3px var(--primary-color);
   transition: all 0.2s ease-in-out;
 } 
 #edit-workout-div > div#decider > .tool-options > span:hover svg {
-  fill: #AEB6BF;
+  fill: var(--secondary-text);
   transition: all 0.2s ease-in-out;
 }
 #edit-workout-div > div#decider > .tool-options > span:hover > p {
-  color: #212F3D ;
-  background-color: #AEB6BF;
-  box-shadow: 0px 0px 3px 3px #F4D03F;
+  color: var(--base-color) ;
+  background-color: var(--secondary-text);
+  box-shadow: 0px 0px 3px 3px var(--primary-color);
   transition: all 0.2s ease-in-out;
 }
 #edit-workout-div > .blockWorkoutData {
@@ -489,15 +531,16 @@ input.lap-text {
 }
 #edit-workout-div > .blockWorkoutData > p {
   margin-bottom: 10px ;
-  color: #AEB6BF ;
+  color: var(--secondary-text) ;
 }
 #edit-workout-div > .blockLapDiv {
   height: 80px ;
   border-radius: 20px ;
+  border: 1px solid var(--primary-color);
   position: absolute ;
   bottom: 0px ;
   top: 0px ;
-  background-color: #212f3d ;
+  background-color: var(--base-color) ;
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
   padding: -1px ;
   container-type: inline-size ;
@@ -513,7 +556,7 @@ input.lap-text {
   height: 20px;
   top: 40% ;
   bottom: 60%;
-  fill:#F4D03F;
+  fill:var(--primary-color);
 }
 #edit-workout-div > .blockLapDiv > #editBlockLap > svg:hover {
   cursor: pointer ;
@@ -522,30 +565,40 @@ input.lap-text {
   cursor: grabbing;
 }
 #edit-workout-div > div.lapBlocksBottom {
-  border: 1px solid #17202A;
+  border: 1px solid var(--base-variant);
   position: relative;
   top: 215px ;
   height: 70px ;
   border-radius: 0 0 20px 20px ;
-  background-color: #17202A;
+  background-color: var(--base-variant);
 } 
 .blockLap {
   margin-top: 200px ;
   height: 130px ;
+  background-color: var(--base-color);
+  border: 1px solid var(--text-color);
+}
+#addBlockLap {
+  background-color: var(--base-variant-tert);
+  border: none;
+}
+#discardBlockLap {
+  background-color: var(--base-variant-tert);
+  border: none;
 }
 #addBlockLap:hover {
   cursor: pointer;
   background-color: #138D75;
-  color: #F4F6F6;
+  color: var(--text-color);
 }
 #discardBlockLap:hover {
   cursor: pointer;
   background-color: #C0392B;
-  color: #F4F6F6;
+  color: var(--text-color);
 }
 .verticalDrag {
   position: absolute;
-  background-color: #F4D03F;
+  background-color: var(--primary-color);
   height: 5px;
   top: 0 ;
   width: 40% ;
@@ -558,7 +611,7 @@ input.lap-text {
 }
 .horizontalDrag {
   position: absolute;
-  background-color: #F4D03F;
+  background-color: var(--primary-color);
   height: 40%;
   width: 5px ;
   margin: auto 0 ;
@@ -577,7 +630,7 @@ input.lap-text {
   bottom: 50px ;
 }
 .topInfo {
-  color: #F4D03F ;
+  color: var(--primary-color) ;
 }
 .bottomInfo {
   position: relative;
@@ -586,7 +639,7 @@ input.lap-text {
   top: calc(100% - 10px) ;
 }
 .bottomInfo  {
-  color: #F4D03F ;
+  color: var(--primary-color) ;
 }
 .block-svgs {
   position: relative;
@@ -608,7 +661,7 @@ input.lap-text {
 }
 .block-svgs > svg:hover {
   cursor: pointer;
-  fill: #F4D03F ;
+  fill: var(--primary-color) ;
   transition: all 0.2s ease-in-out;
 }
 .selected {
@@ -633,9 +686,9 @@ input.lap-text {
   left: 20% ;
 }
 .grpEdit > div.blockGrp-svgs {
-  border: 3px solid #F4D03F  ;
-  background-color: #F4D03F ;
-  box-shadow: 3px 3px 3px 3px #F4D03F;
+  border: 3px solid var(--primary-color)  ;
+  background-color: var(--primary-color) ;
+  box-shadow: 3px 3px 3px 3px var(--primary-color);
   border-radius: 30px;
   position: relative;
   width: 100% ;
@@ -649,16 +702,16 @@ input.lap-text {
   left: 0px ;
   top: 13px;
   height: 30px ;
-  fill:  #212f3d  ;
+  fill:  var(--base-color)  ;
 }
 .grpEdit > div.blockGrp-svgs > svg:hover{
-  fill:   #d68910   ;
+  fill:   var(--primary-color)   ;
   cursor: pointer ;
 }
 .aboutDiv {
-  height: 800px;
+  height: 100vh;
   width: 100vw;
-  background-color: #212f3d;
+  background-color: var(--base-color);
 }
 .aboutDiv > svg {
   position: relative;
@@ -668,18 +721,22 @@ input.lap-text {
   width: 100vw ;
   z-index: 1 ;
 }
+.aboutDiv > svg > path {
+  fill: var(--base-color);
+  stroke: var(--primary-color);
+}
 .placeholder {
   height: 500px;
 }
 .desc-text {
-  background-color: rgba(33, 47, 61, 0.01);
+  background-color: rgba(33, 47, 61, 0.001);
   margin: 0;
   text-align: left;
   position: absolute;
   top: 140px ;
   left: 50px ;
   z-index: 2;
-  color: #FDFEFE ;
+  color: var(--text-color) ;
   font-weight: 200;
 }
 .desc-text > h1 {
@@ -697,7 +754,7 @@ input.lap-text {
   top: 100px ;
   font-weight: 400 ;
   font-size: 40px; 
-  color: #FDFEFE ;
+  color: var(--text-color) ;
   text-decoration: none;
 }
 .hoverUnder {
@@ -712,7 +769,7 @@ input.lap-text {
   height: 1px;
   width: 100%;
   left: 0;
-  background-color: #FDFEFE;
+  background-color: var(--text-color);
   transition: 0.3s;
   transition-timing-function: easy-in-out;
   transform: scaleX(0)

@@ -16,6 +16,12 @@ const blockLaps = [] ;
 let blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
 let stopSel = false ;
 
+const root = document.documentElement;
+
+let primaryColor = getComputedStyle(root).getPropertyValue('--primary-color').trim();
+let baseColor = getComputedStyle(root).getPropertyValue('--base-color').trim();
+let baseVariantTert = getComputedStyle(root).getPropertyValue('--base-variant-tert').trim();
+
 addWorkoutBtn.addEventListener("click", toggleCreateForm);
 closeCreateFromBtn.addEventListener("click", toggleCreateForm);
 AddWorkoutHeadBtn.addEventListener("click", addWorkoutHead) ;
@@ -424,12 +430,15 @@ function moveBlocksAround(e) {
             blockLapsSorted = [...blockLaps].sort((a, b) => a.position - b.position);
             changeLapWidths();
             changeLapArrangements();
-
+            
+            baseColor = getComputedStyle(root).getPropertyValue('--base-color').trim();
+            primaryColor = getComputedStyle(root).getPropertyValue('--primary-color').trim();
+            baseVariantTert = getComputedStyle(root).getPropertyValue('--base-variant-tert').trim();
 
             div.style.cursor = 'default';
             div.style.boxShadow = "none" ;
-            div.style.backgroundColor = "#1C2833";
-            div.style.border = "1px solid #F4D03F" ;
+            div.style.backgroundColor = baseVariantTert;
+            div.style.border = `1px solid ${primaryColor}` ;
             div.style.borderRadius = "10px" ;
             div.innerHTML += `
             <div class="selectionDiv selectable" aria-label="${blockLaps[targetArrNum].name}"></div>
@@ -462,9 +471,12 @@ function moveBlocksAround(e) {
             document.body.style.userSelect = 'none';
             targetElement.style.cursor = 'row-resize';
             
-            let newY = 1500 - event.pageY ;
+            const lapBlocksBottom = document.querySelector('.lapBlocksBottom');
+            const lpbRect = lapBlocksBottom.getBoundingClientRect();
+            const pageTop = lpbRect.top + window.scrollY ;
+            let newY = pageTop - event.pageY ;
             newY = Math.max(0, Math.min(newY, 400));
-            divPower = newY * 2.5 ; 
+            divPower = (newY * 2.5).toFixed(1); ; 
             blockLaps[ind].power = divPower ;
             changeLapHeight(ind);
             topInfoTxt.innerText = `${blockLaps[ind].power} W`;
@@ -1191,3 +1203,27 @@ function morphSequenceF() {
     morphToF2.start();
 }
 document.addEventListener('DOMContentLoaded', morphSequenceF);
+
+
+//darkmode stuff
+let darkmode = localStorage.getItem('darkmode'); 
+const themeSwitch = document.getElementById('themeswitch');
+
+const enableDarkmode = () => {
+    console.log("hey");
+    document.body.classList.add("dark-mode");
+    localStorage.setItem('darkmode', 'active'); 
+}
+
+const disableDarkmode = () => {
+    console.log("hey");
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('darkmode', null);
+}
+
+if (darkmode === "active") enableDarkmode() ;
+
+themeSwitch.addEventListener("click", () => {
+    darkmode = localStorage.getItem('darkmode');
+    darkmode !== "active" ? enableDarkmode() : disableDarkmode() ; 
+})
