@@ -500,6 +500,12 @@ input.lap-text {
   background-color: #212f3d ;
   box-shadow: 5px 5px 2px 1px rgba(0, 0, 0, .2);
   padding: -1px ;
+  container-type: inline-size ;
+}
+@container (max-width: 100px) {
+  .block-svgs > svg {
+    display: none;
+  }
 }
 #edit-workout-div > .blockLapDiv > #editBlockLap > svg {
   position: relative;

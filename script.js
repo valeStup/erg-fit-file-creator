@@ -346,11 +346,6 @@ editWorkoutDiv.addEventListener("click", function(e) {
     if (e.target.id === 'addBlockLapBtn') {
         addNewBlockLap();
     }
-
-    console.log("pageX: " + e.pageX );
-    console.log("screenX: " + e.screenX );
-    console.log("clientX: " + e.clientX );
-    console.log("offsetX: " + e.offsetX );
 } )
 
 editWorkoutDiv.addEventListener('mousedown', moveBlocksAround);
@@ -378,9 +373,6 @@ function moveBlocksAround(e) {
 
         const startX = e.clientX ;
         const startY = e.clientY ;
-
-
-        console.log("client: " + e.clientY);
 
         const minX = 0 ;
         const minY = 0 ;
@@ -470,7 +462,7 @@ function moveBlocksAround(e) {
             document.body.style.userSelect = 'none';
             targetElement.style.cursor = 'row-resize';
             
-            let newY = 1475 - event.pageY ;
+            let newY = 1500 - event.pageY ;
             newY = Math.max(0, Math.min(newY, 400));
             divPower = newY * 2.5 ; 
             blockLaps[ind].power = divPower ;
@@ -492,7 +484,6 @@ function moveBlocksAround(e) {
         const ind = blockLaps.findIndex((i) => i.name == divName) ;
         let ogDivWidth = blockLaps[ind].width ;
         let ogDivDuration = blockLaps[ind].duration ;
-        console.log(blockLaps);
         const startX = e.pageX ;
         const bottomInfoTxt = document.getElementById(`bottomInfo-${divName}`);
 
@@ -510,7 +501,6 @@ function moveBlocksAround(e) {
         function onMouseMove(event) {
             document.body.style.userSelect = 'none';
             targetElement.style.cursor = 'col-resize';
-            console.log("conatainerLeft: " + containerRect.left);
             
             let preMins = blockLaps[ind].duration;
             let marLeft = blockLaps[ind].marginleft ;
@@ -522,9 +512,6 @@ function moveBlocksAround(e) {
             //let newDivWidth = x - marLeft - offsetX ;
 
             newDivWidth = Math.max(0, Math.min(1440, newDivWidth));
-            console.log("newdw: " + newDivWidth);
-            console.log(ogDivWidth);
-            console.log(ogDivDuration);
             let divDuration = Math.pow((newDivWidth / ogDivWidth), 2) * ogDivDuration ;
             blockLaps[ind].duration = divDuration ;
             
@@ -578,7 +565,7 @@ function addNewBlockLap() {
 
 function deleteBlockLap(target) {
     const lapName = `${target.ariaLabel}`;
-    const ind = blockLaps.findIndex((p) => p.name === lapName);
+    const ind = blockLaps.findIndex((p) => p.name == lapName);
     const lapProps = document.querySelector(`.blockLapDiv-${lapName}`) ;
     decMinsTotal -= blockLaps[ind].duration;
     blockLaps[ind].duration = 0;
