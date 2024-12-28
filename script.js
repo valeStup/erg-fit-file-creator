@@ -16,6 +16,66 @@ const blockLaps = [] ;
 let blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
 let stopSel = false ;
 
+//darkmode stuff
+let darkmode = localStorage.getItem('darkmode'); 
+const themeSwitch = document.getElementById('themeswitch');
+
+const enableDarkmode = () => {
+    document.body.classList.add("dark-mode");
+    localStorage.setItem('darkmode', 'active'); 
+}
+
+const disableDarkmode = () => {
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('darkmode', null);
+
+}
+
+darkmode === "active" ? enableDarkmode() : disableDarkmode() ;
+
+
+themeSwitch.addEventListener("click", () => {
+    darkmode = localStorage.getItem('darkmode');
+    darkmode !== "active" ? enableDarkmode() : disableDarkmode() ; 
+    updateBlockLapColor();
+    console.log(darkmode);
+})
+
+
+function getPrimaryColor() {
+    if (darkmode !== "active") {
+        return '#F4D03F' ;
+    } else {
+        return '#0071ff' ;
+    }
+}
+function getBaseTert() {
+    if (darkmode !== "active") {
+        return '#1C2833' ;
+    } else {
+        return '#eeeeee' ;
+    }
+}
+
+function updateBlockLapColor() {
+    blockLaps.forEach((lap) => {
+        if (lap.dockStatus = "docked") {
+            if (darkmode === "active") {
+                const div = document.querySelector(`.blockLapDiv-${lap.name}`);
+                div.style.backgroundColor = '#eeeeee';
+                div.style.border = '1px solid #1C2833' ;
+            } else {
+                const div = document.querySelector(`.blockLapDiv-${lap.name}`);
+                div.style.backgroundColor = '#1C2833';
+                div.style.border = '1px solid #F4D03F' ;
+            }
+
+        }
+    })
+
+    console.log("hey");
+}
+
 const root = document.documentElement;
 
 let primaryColor = getComputedStyle(root).getPropertyValue('--primary-color').trim();
@@ -430,15 +490,13 @@ function moveBlocksAround(e) {
             blockLapsSorted = [...blockLaps].sort((a, b) => a.position - b.position);
             changeLapWidths();
             changeLapArrangements();
-            
-            baseColor = getComputedStyle(root).getPropertyValue('--base-color').trim();
-            primaryColor = getComputedStyle(root).getPropertyValue('--primary-color').trim();
-            baseVariantTert = getComputedStyle(root).getPropertyValue('--base-variant-tert').trim();
 
+
+            console.log(darkmode);
             div.style.cursor = 'default';
             div.style.boxShadow = "none" ;
-            div.style.backgroundColor = baseVariantTert;
-            div.style.border = `1px solid ${primaryColor}` ;
+            div.style.backgroundColor = getBaseTert();
+            div.style.border = `1px solid ${getPrimaryColor()}` ;
             div.style.borderRadius = "10px" ;
             div.innerHTML += `
             <div class="selectionDiv selectable" aria-label="${blockLaps[targetArrNum].name}"></div>
@@ -1205,25 +1263,3 @@ function morphSequenceF() {
 document.addEventListener('DOMContentLoaded', morphSequenceF);
 
 
-//darkmode stuff
-let darkmode = localStorage.getItem('darkmode'); 
-const themeSwitch = document.getElementById('themeswitch');
-
-const enableDarkmode = () => {
-    console.log("hey");
-    document.body.classList.add("dark-mode");
-    localStorage.setItem('darkmode', 'active'); 
-}
-
-const disableDarkmode = () => {
-    console.log("hey");
-    document.body.classList.remove('dark-mode');
-    localStorage.setItem('darkmode', null);
-}
-
-if (darkmode === "active") enableDarkmode() ;
-
-themeSwitch.addEventListener("click", () => {
-    darkmode = localStorage.getItem('darkmode');
-    darkmode !== "active" ? enableDarkmode() : disableDarkmode() ; 
-})
