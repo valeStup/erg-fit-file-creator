@@ -162,6 +162,9 @@ nav#navbar > ul > li > a.nav-link {
   div#create-form-div > form > div.create-form-inputs label {
     color: var(--secondary-text);
   }
+  button#open-create-form-btn {
+    margin-top: 100px ;
+  }
   button#open-create-form-btn:hover {
     color: var(--base-variant);
     background-color: var(--primary-color);

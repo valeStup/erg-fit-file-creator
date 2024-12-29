@@ -120,6 +120,7 @@ function decideOnBlockBuilder() {
 
 function toggleCreateForm() {
     createFormDiv.classList.toggle("hidden");
+    addWorkoutBtn.classList.add("hidden");
 }
 function  hideAddWorkoutBtn() {
     addWorkoutBtn.classList.add("hidden");
@@ -195,10 +196,6 @@ function AddNewWorkoutBlock() {
     <p id="addBlockLapBtn" class="addLapOrSaveBtn blockBtn">add lap</p>
     <p id="saveBlockLapBtn" class="addLapOrSaveBtn blockBtn">save</p>
     </div>
-    <div class="blockWorkoutData noSelect" id="blockWorkoutData">
-    <p id="blockWorkoutDurationData">Duration: ${decMinsTotal}</p>
-    <p>Average power: </p>
-    </div>
     <div class="lapBlocksBottom noSelect"></div>
     `;
     dataString += `
@@ -213,10 +210,6 @@ MINUTES WATTS
 [COURSE DATA]`
 } 
 
-const blockWorkoutDurationData = document.getElementById('blockWorkoutDurationData');
-function updateDisplay(totalDur, avgPower) {
-    blockWorkoutDurationData.textContent = `Duration: ${decMinsTotal}`;
-}
 
 function addNewWorkout() {
     editWorkoutDiv.innerHTML = "";
@@ -560,7 +553,7 @@ function moveBlocksAround(e) {
             
             const lapBlocksBottom = document.querySelector('.lapBlocksBottom');
             const lpbRect = lapBlocksBottom.getBoundingClientRect();
-            const pageTop = lpbRect.top + window.scrollY ;
+            const pageTop = lpbRect.bottom + window.scrollY ;
             let newY = pageTop - event.pageY ;
             newY = Math.max(0, Math.min(newY, 400));
             divPower = (newY * 2.5).toFixed(1); ; 
@@ -1082,13 +1075,14 @@ function dupeBlockLaps() {
         changeLapWidths() ;
         changeLapArrangements() ;
         changeLapHeight(blockLaps.length - 1);
+        console.log(blockLaps);
     });
 
     function getNewPos(ind) {
         if (blockLaps[ind].name.length > 3) {
-            return blockLaps[ind].position + (0.001 * dupeCount);
+            return blockLaps[ind].position + (0.001 * dupeCount * lap);
         } else {
-            return blockLaps[ind].position + (0.01 * dupeCount);
+            return blockLaps[ind].position + (0.01 * dupeCount * lap);
         }
     }
 }
