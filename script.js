@@ -17,6 +17,7 @@ let blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
 let stopSel = false ;
 
 //darkmode stuff
+localStorage.removeItem('active') ;
 let darkmode = localStorage.getItem('darkmode'); 
 const themeSwitch = document.getElementById('themeswitch');
 
@@ -26,8 +27,8 @@ const enableDarkmode = () => {
 }
 
 const disableDarkmode = () => {
-    document.body.classList.remove('dark-mode');
-    localStorage.setItem('darkmode', null);
+    document.body.classList.remove('dark-mode'); 
+    localStorage.setItem('darkmode', 'null');
 
 }
 
@@ -35,22 +36,24 @@ darkmode === "active" ? enableDarkmode() : disableDarkmode() ;
 
 
 themeSwitch.addEventListener("click", () => {
+    console.log(darkmode);
     darkmode = localStorage.getItem('darkmode');
-    darkmode !== "active" ? enableDarkmode() : disableDarkmode() ; 
+    darkmode === 'active' ? disableDarkmode() : enableDarkmode() ; 
+    darkmode = localStorage.getItem('darkmode');
     updateBlockLapColor();
     console.log(darkmode);
 })
 
 
 function getPrimaryColor() {
-    if (darkmode !== "active") {
+    if (darkmode === "active") {
         return '#F4D03F' ;
     } else {
         return '#0071ff' ;
     }
 }
 function getBaseTert() {
-    if (darkmode !== "active") {
+    if (darkmode === "active") {
         return '#1C2833' ;
     } else {
         return '#eeeeee' ;
@@ -60,7 +63,7 @@ function getBaseTert() {
 function updateBlockLapColor() {
     blockLaps.forEach((lap) => {
         if (lap.dockStatus = "docked") {
-            if (darkmode === "active") {
+            if (darkmode !== "active") {
                 const div = document.querySelector(`.blockLapDiv-${lap.name}`);
                 div.style.backgroundColor = '#eeeeee';
                 div.style.border = '1px solid #1C2833' ;
@@ -72,8 +75,6 @@ function updateBlockLapColor() {
 
         }
     })
-
-    console.log("hey");
 }
 
 const root = document.documentElement;
@@ -200,6 +201,16 @@ function AddNewWorkoutBlock() {
     </div>
     <div class="lapBlocksBottom noSelect"></div>
     `;
+    dataString += `
+[COURSE HEADER]
+VERSION = 2
+UNITS = ENGLISH
+DESCRIPTION = ${nameInput.value}
+FILE NAME = ${fileName}.erg
+FTP = ${ftpInput.value}
+MINUTES WATTS
+[END COURSE HEADER]
+[COURSE DATA]`
 } 
 
 const blockWorkoutDurationData = document.getElementById('blockWorkoutDurationData');
@@ -284,7 +295,7 @@ editWorkoutDiv.addEventListener("click", function (e) {
         handleAdderClick(e.target);
     } else if (e.target.classList.contains("discardLap")) {
         handleDiscarderClick(e.target);
-    }
+    } 
 });
 
 function addNewLap() {
@@ -397,7 +408,23 @@ function saveAsErg() {
     link.href = URL.createObjectURL(blob);
     link.download = `${fileName}.erg`;
     link.click();
+}
 
+function saveBlockLap() {
+    blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
+    blockLapsSorted.forEach((lap) => {
+        if (lap.duration !== 0) {
+            addToDataString(lap.duration, lap.power) ;
+        }
+    })
+
+    dataString += `\n[END COURSE DATA]`;
+    const fileName = getFileName(nameInput.value);
+    const blob = new Blob([dataString], {type: 'text/erg'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${fileName}.erg`;
+    link.click();
 }
 
 editWorkoutDiv.addEventListener("click", function (e) {
@@ -411,6 +438,8 @@ editWorkoutDiv.addEventListener("click", function (e) {
 editWorkoutDiv.addEventListener("click", function(e) {
     if (e.target.id === 'addBlockLapBtn') {
         addNewBlockLap();
+    } else if (e.target.id === 'saveBlockLapBtn') {
+        saveBlockLap();
     }
 } )
 
