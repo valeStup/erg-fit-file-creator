@@ -1080,9 +1080,9 @@ function dupeBlockLaps() {
 
     function getNewPos(ind) {
         if (blockLaps[ind].name.length > 3) {
-            return blockLaps[ind].position + (0.001 * dupeCount * lap);
+            return blockLaps[ind].position + (0.001 * dupeCount);
         } else {
-            return blockLaps[ind].position + (0.01 * dupeCount * lap);
+            return blockLaps[ind].position + (0.01 * dupeCount);
         }
     }
 }
