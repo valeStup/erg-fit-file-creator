@@ -120,7 +120,7 @@ function decideOnBlockBuilder() {
 
 function toggleCreateForm() {
     createFormDiv.classList.toggle("hidden");
-    addWorkoutBtn.classList.add("hidden");
+    addWorkoutBtn.classList.toggle("hidden");
 }
 function  hideAddWorkoutBtn() {
     addWorkoutBtn.classList.add("hidden");
@@ -580,7 +580,7 @@ function moveBlocksAround(e) {
         const bottomInfoTxt = document.getElementById(`bottomInfo-${divName}`);
 
         const rect = targetElement.getBoundingClientRect();
-        //const offsetX = startX - rect.left ;
+        
         const minX = 0 ;
         const maxX = 1440 ;
 
@@ -601,7 +601,6 @@ function moveBlocksAround(e) {
             let newDivWidth = cursorX - conatainerRect.left ;
 
             let x = event.pageX - containerRect.left ;
-            //let newDivWidth = x - marLeft - offsetX ;
 
             newDivWidth = Math.max(0, Math.min(1440, newDivWidth));
             let divDuration = Math.pow((newDivWidth / ogDivWidth), 2) * ogDivDuration ;
@@ -698,8 +697,8 @@ function changePositionNeg(target) {
 editWorkoutDiv.addEventListener("click" , function(e) {
     if (e.target.id === 'pencil-svg-path') {
         editLap(e.target);
-    } else if (e.target.id === 'bin-svg-block') {
-        deleteBlockLap(e.target);
+    } else if (e.target.id === 'bin-svg-path') {
+        deleteLap(e.target);
     } else if (e.target.id === 'pencil-svg-block') {
         editBlockLap(e.target);
     } else if (e.target.id === 'back-svg-block') {
@@ -922,21 +921,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
   
-    // end selection process
     document.addEventListener('mouseup', () => {
       if (isSelecting) {
         isSelecting = false ;
         selectionRectangle.style.display = 'none';
       } 
     });
-    // open Editor for highlighted Laps
+    
     function openGroupLapEditor() {
         // blur out background
         editWorkoutDiv.classList.add("blurred");
         document.querySelectorAll(".focused").forEach((element) => {
             element.classList.remove("focused");
         });
-        // focus on important
 
         for (let i = 0; i < selectedElements.length; i++) {
             const lapProps = document.querySelector(`.blockLapDiv-${selectedElements[i].name}`);
@@ -958,7 +955,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fence.appendChild(groupLapEditor);
     }
 
-    // close Editor for highlighted Laps
     function closeGroupLapEditor() {
         editWorkoutDiv.classList.remove("blurred");
         for (let i = 0; i < selectedElements.length; i++) {
@@ -1070,7 +1066,6 @@ function dupeBlockLaps() {
         editWorkoutDiv.appendChild(thisLapClone);
         blockLaps.push({name: newNameString, duration: blockLaps[lapInd].duration , power: blockLaps[lapInd].power , width: 0, dockStatus: "docked", height: 80, margintop: 360, marginleft: 0, position: newPos});
         blockLapsSorted = [...blockLaps].sort((a,b) => a.position - b.position) ;
-        //thisLapClone.ariaLabel = blockLaps.length;
 
         changeLapWidths() ;
         changeLapArrangements() ;
@@ -1088,7 +1083,7 @@ function dupeBlockLaps() {
 }
 });
 
-//morphing stuff with KUTE.js
+//morphing stuff with KUTE.js (title screen animation)
 const a1 = document.getElementById('a1');
 const a2 = document.getElementById('a2').getAttribute('d');
 const a3 = document.getElementById('a3').getAttribute('d');

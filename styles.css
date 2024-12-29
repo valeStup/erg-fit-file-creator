@@ -147,7 +147,7 @@ nav#navbar > ul > li > a.nav-link {
   }
   button#open-create-form-btn {
     border: 1px solid ;
-    height: 50px; ;
+    height: 100px; ;
     position: relative;
     top: 50px ;
     width: 80% ;
@@ -729,7 +729,12 @@ input.lap-text {
   stroke: var(--primary-color);
 }
 .placeholder {
+  position: relative;
+  top: 300px ;
   height: 500px;
+  width: 50vw ;
+  text-align: left;
+  margin: auto ;
 }
 .desc-text {
   background-color: rgba(33, 47, 61, 0.001);
@@ -786,4 +791,19 @@ input.lap-text {
   font-weight: 200;
   position: relative;
   top: 5px ;
+}
+.instructH {
+  color: var(--text-color);
+  font-weight: 400;
+  padding: 5px;
+}
+.instructions {
+  color: var(--text-color) ;
+  font-size: 1.2rem;
+  padding: 5px;
+  list-style: square ;
+}
+a {
+  text-decoration: underline;
+  color: var(--secondary-text);
 }
