@@ -705,6 +705,8 @@ editWorkoutDiv.addEventListener("click" , function(e) {
         changePositionNeg(e.target);
     } else if (e.target.id === 'ahead-svg-block') {
         changePositionPos(e.target);
+    } else if (e.target.id === 'bin-svg-block') {
+        deleteBlockLap(e.target);
     }
 });
 function editBlockLap(target) {
